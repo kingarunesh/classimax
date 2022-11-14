@@ -32,6 +32,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'crispy_forms',
+    'crispy_bootstrap5',
     'django.contrib.humanize',
     'accounts.apps.AccountsConfig',
     'postad.apps.PostadConfig',
@@ -136,3 +138,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "accounts:test"
 LOGOUT_REDIRECT_URL = "/"
 LOGIN_URL = "accounts:login"
+
+#   CRISPY FORM
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"

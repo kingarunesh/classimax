@@ -43,7 +43,6 @@ class PostAD(models.Model):
     publish_date = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(editable=False)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="postad")
-    tag = models.ManyToManyField(Tag, related_name="postad")
     brand = models.CharField(max_length=200)
     model = models.CharField(max_length=200)
     purchase_year = models.DateField()

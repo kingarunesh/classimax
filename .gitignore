@@ -5,6 +5,7 @@
 backup templates/
 static/
 playground.py
+backup.html
 
 ### Django ###
 *.log
