@@ -4,6 +4,7 @@
 #   changes
 backup templates/
 static/
+playground.py
 
 ### Django ###
 *.log
