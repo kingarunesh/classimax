@@ -10,7 +10,28 @@
       <div class="col-lg-7 col-md-8 align-item-center">
         <div class="border border">
           <h3 class="bg-gray p-4">Create New Account</h3>
-          <form action="#">
+          <form action="" method="post">
+            {% csrf_token %}
+            <!-- errors  -->
+
+            <!-- <div class="alert alert-danger" role="alert">A simple danger alert—check it out!</div> -->
+
+            {% if form.errors %}
+            <div class="alert alert-danger m-2" role="alert">
+              <h4 style="color: red; font-weight: 900">Please correct the errors below</h4>
+              <ul>
+                {% for field in form %}
+                <!--  -->
+                {% if field.errors %}
+                <li>{{field.label}} : {{field.errors|striptags}}</li>
+                {% endif %}
+                <!--  -->
+                {% endfor %}
+              </ul>
+            </div>
+            {% endif %}
+            <!-- end errors  -->
+
             <fieldset class="p-4">
               <div class="row">
                 <div class="col-md-6">
