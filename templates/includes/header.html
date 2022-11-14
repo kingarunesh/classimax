@@ -1,11 +1,12 @@
 {% load static %}
 
 <header>
-  <div class="container">
+  <!-- <div class="container"> -->
+  <div style="width: 90%; margin: auto">
     <div class="row">
       <div class="col-md-12">
         <nav class="navbar navbar-expand-lg navbar-light navigation">
-          <a class="navbar-brand" href="index.html">
+          <a class="navbar-brand" href="{% url 'postad:index' %}">
             <img src="{% static 'images/logo.png' %}" alt="" />
           </a>
           <button
@@ -22,7 +23,10 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto main-nav">
               <li class="nav-item @@home">
-                <a class="nav-link" href="index.html">Home</a>
+                <a class="nav-link" href="{% url 'postad:index' %}">Home</a>
+              </li>
+              <li class="nav-item @@home">
+                <a class="nav-link" href="{% url 'postad:adposts' %}">Explore Ads</a>
               </li>
               <li class="nav-item dropdown dropdown-slide @@dashboard">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#!"
@@ -146,15 +150,31 @@
               </li>
             </ul>
             <ul class="navbar-nav ml-auto mt-10">
+              {% if user.is_authenticated %}
+
+              <!-- dropdown -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Dropdown </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Profile</a></li>
+                  <li><hr class="dropdown-divider" /></li>
+                  <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">Logout</a></li>
+                  <li><hr class="dropdown-divider" /></li>
+                </ul>
+              </li>
+              <!-- dropdown -->
               <li class="nav-item">
-                <a class="nav-link login-button" href="login.html">Login</a>
+                <a class="nav-link text-white add-button" href="{% url 'postad:create_postad' %}"><i class="fa fa-plus-circle"></i> Add Listing</a>
+              </li>
+
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link login-button" href="{% url 'accounts:login' %}">Login</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link login-button" href="login.html">Register</a>
+                <a class="nav-link login-button" href="{% url 'accounts:register' %}">Register</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link text-white add-button" href="ad-listing.html"><i class="fa fa-plus-circle"></i> Add Listing</a>
-              </li>
+              {% endif %}
             </ul>
           </div>
         </nav>

@@ -54,7 +54,7 @@
           <h1 class="product-title">{{post.title}}</h1>
           <div class="product-meta">
             <ul class="list-inline">
-              <li class="list-inline-item"><i class="fa fa-user-o"></i> By <a href="user-profile.html">{{post.user.username}}</a></li>
+              <li class="list-inline-item"><i class="fa fa-user-o"></i> By <a href="user-profile.html">{{post.user.username|title}}</a></li>
               <li class="list-inline-item"><i class="fa fa-folder-open-o"></i> Category<a href="category.html">{{post.category.title}}</a></li>
               <li class="list-inline-item"><i class="fa fa-location-arrow"></i> Location<a href="category.html">{{post.city}}, {{post.state}}</a></li>
             </ul>
@@ -260,7 +260,9 @@
           </div>
           <!-- User Profile widget -->
           <div class="widget user text-center">
+            {% if post.user.image %}
             <img class="rounded-circle img-fluid mb-5 px-5" src="{{post.user.image.url}}" alt="" />
+            {% endif %}
             <h4><a href="user-profile.html">{{post.user.first_name}} {{post.user.last_name}}</a></h4>
             <p class="member-time">Member Since - {{post.user.date_joined|date:'d M o'}}</p>
             <a href="single.html">See all ads</a>

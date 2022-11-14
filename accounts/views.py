@@ -10,7 +10,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 class RegisterView(CreateView):
     template_name = "accounts/register.html"
     form_class = RegisterForm
-    success_url = reverse_lazy("accounts:register")
+    success_url = reverse_lazy("accounts:login")
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:

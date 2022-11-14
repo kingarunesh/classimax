@@ -15,6 +15,9 @@ class PostAdView(ListView):
     template_name = "postad/postsad.html"
     context_object_name = "posts"
 
+    def get_queryset(self):
+        return PostAD.objects.order_by("-id")
+
 
 class PostAdDetailView(DetailView):
     model = PostAD
@@ -40,8 +43,3 @@ class PostAdCreateView(CreateView):
         form.save()
         
         return super(PostAdCreateView, self).form_valid(form)
-    
-    # def get_context_data(self, **kwargs):
-    #     context = super(PostAdCreateView, self).get_context_data(**kwargs)
-    #     context["state"] = PostAD.objects.filter(id__lt=self.kwargs["pk"]).order_by("-id").first()
-    #     return context
