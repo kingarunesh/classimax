@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+<!--  -->
+
+{% block content %}
+
+<section class="login py-5 border-top-1">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-7 col-md-8 align-item-center">
+        <div class="border border">
+          <h3 class="bg-gray p-4">Create New Account</h3>
+          <form action="#">
+            <fieldset class="p-4">
+              <div class="row">
+                <div class="col-md-6">
+                  <!-- first name -->
+                  <input class="form-control mb-3" type="text" name="first_name" placeholder="First Name" required />
+                </div>
+
+                <div class="col-md-6">
+                  <!-- last name -->
+                  <input class="form-control mb-3" type="text" name="last_name" placeholder="Last Name" required />
+                </div>
+              </div>
+
+              <!-- username -->
+              <input class="form-control mb-3" type="text" name="username" placeholder="Username" required />
+
+              <!-- email -->
+              <input class="form-control mb-3" type="email" name="email" placeholder="Email" required />
+
+              <!-- password -->
+              <input class="form-control mb-3" name="password1" type="password" placeholder="Password" required />
+
+              <!-- confirm password -->
+              <input class="form-control mb-3" type="password" name="password2" placeholder="Confirm Password" required />
+              <button type="submit" class="btn btn-primary font-weight-bold mt-3">Register</button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
