@@ -43,12 +43,11 @@ class PostAD(models.Model):
     slug = models.SlugField(editable=False)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="postad")
     tag = models.ManyToManyField(Tag, related_name="postad")
-
     brand = models.CharField(max_length=200)
     model = models.CharField(max_length=200)
     purchase_year = models.DateField()
-
     sold = models.BooleanField(default=False)
+    hits = models.PositiveIntegerField(default=0)
 
     CONDITION_TYPE = [
         ("Almost Like New", "Almost Like New"),

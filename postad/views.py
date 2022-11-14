@@ -1,3 +1,12 @@
-from django.shortcuts import render
+from django.views.generic import TemplateView, ListView
+from postad.models import PostAD
 
-# Create your views here.
+
+class IndexView(TemplateView):
+    template_name = "postad/index.html"
+
+
+class PostAdView(ListView):
+    model = PostAD
+    template_name = "postad/postsad.html"
+    context_object_name = "posts"
