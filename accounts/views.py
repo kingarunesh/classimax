@@ -12,6 +12,11 @@ class RegisterView(CreateView):
     form_class = RegisterForm
     success_url = reverse_lazy("accounts:register")
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect("/")
+        return super(RegisterView, self).dispatch(request, *args, **kwargs)
+
 
 class LoginUserView(LoginView):
     template_name = "accounts/login.html"
