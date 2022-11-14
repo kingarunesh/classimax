@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.template.defaultfilters import slugify
 import uuid
+from PIL import Image
 
 
 class Category(models.Model):
@@ -108,6 +109,11 @@ class PostAD(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(PostAD, self).save(*args, **kwargs)
+
+        img = Image.open(self.image1.path)
+        new_size = (420, 275)
+        img.thumbnail(new_size)
+        img.save(self.image1.path)
 
     def __str__(self):
         return self.title
