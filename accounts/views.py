@@ -7,7 +7,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.models import User
 from django.conf import settings
 from accounts.models import Account
-from postad.models import PostAD
+from postad.models import PostAD, Bookmark
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -87,5 +87,19 @@ class MyAdPostView(LoginRequiredMixin, ListView):
     
     def get_context_data(self, **kwargs):
         context = super(MyAdPostView, self).get_context_data(**kwargs)
+        context["profile"] = self.request.user
+        return context
+
+
+class BookmarkAdPostView(LoginRequiredMixin, ListView):
+    model = Bookmark
+    template_name = "accounts/bookmark-ad-posts.html"
+    context_object_name = "bookmarks"
+
+    def get_queryset(self):
+        return Bookmark.objects.filter(user=self.request.user).order_by("-id")
+
+    def get_context_data(self, **kwargs):
+        context = super(BookmarkAdPostView, self).get_context_data(**kwargs)
         context["profile"] = self.request.user
         return context

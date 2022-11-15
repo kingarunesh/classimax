@@ -22,14 +22,12 @@
       </li>
       
       <li
-      {% if '/accounts/my-ad-posts/' in request.path %}
-                 class="active"
-            {% endif %}
+      {% if '/accounts/my-ad-posts/' in request.path %} class="active" {% endif %}
       >
         <a href="{% url 'accounts:my_adposts' %}"> <i class="fa fa-list-ul" aria-hidden="true"></i>My Ads</a> 
       </li>
-      <li>
-        <a href="dashboard-favourite-ads.html"><i class="fa fa-bookmark-o"></i> Favourite Ads <span>5</span></a>
+      <li {% if '/accounts/bookmarks/' in request.path %} class="active" {% endif %} >
+        <a href="{% url 'accounts:bookmark_adposts' %}"><i class="fa fa-bookmark-o"></i> Favourite Ads <span>5</span></a>
       </li>
       <li>
         <a href="dashboard-archived-ads.html"><i class="fa fa-file-archive-o"></i>Archeved Ads <span>12</span></a>
