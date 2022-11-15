@@ -286,6 +286,7 @@
               <li>Pay only after collecting the item</li>
               {% if request.user == post.user %}
               <li><a href="{% url 'postad:update_postad' pk=post.id slug=post.slug %}">Update Ad Post</a></li>
+              <li><a href="{% url 'postad:delete_adpost' pk=post.id slug=post.slug %}">Delete Ad Post</a></li>
               {% endif %}
             </ul>
           </div>

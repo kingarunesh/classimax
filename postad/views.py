@@ -1,9 +1,10 @@
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from postad.models import PostAD
 from django.db.models import F, Q
 from postad.forms import PostAdCreationForm
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class IndexView(TemplateView):
@@ -29,7 +30,7 @@ class PostAdDetailView(DetailView):
         return super(PostAdDetailView, self).get(request, *args, **kwargs)
 
 
-class PostAdCreateView(CreateView):
+class PostAdCreateView(LoginRequiredMixin, CreateView):
     model = PostAD
     form_class = PostAdCreationForm
     template_name = "postad/postad-create.html"
@@ -45,7 +46,7 @@ class PostAdCreateView(CreateView):
         return super(PostAdCreateView, self).form_valid(form)
 
 
-class UpdatePostAdView(UpdateView):
+class UpdatePostAdView(LoginRequiredMixin, UpdateView):
     model = PostAD
     template_name = "postad/update-postad.html"
     form_class = PostAdCreationForm
@@ -62,3 +63,23 @@ class UpdatePostAdView(UpdateView):
         if self.object.user != request.user:
             return HttpResponseRedirect("/")
         return super(UpdatePostAdView, self).get(request, *args, **kwargs)
+
+
+class DeletePostAdView(LoginRequiredMixin, DeleteView):
+    model = PostAD
+    success_url = reverse_lazy("postad:adposts")
+    template_name = "postad/delete-postad.html"
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        if self.object.user == request.user:
+            self.object.delete()
+            return HttpResponseRedirect(self.success_url)
+        return HttpResponseRedirect(self.success_url)
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.user != request.user:
+            return HttpResponseRedirect("/")
+        return super(DeletePostAdView, self).get(request, *args, **kwargs)
