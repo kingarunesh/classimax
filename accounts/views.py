@@ -1,12 +1,12 @@
 from django.views.generic import TemplateView, CreateView, DetailView, ListView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from accounts.forms import RegisterForm, UserProfileUpdateForm
+from accounts.forms import RegisterForm, UserProfileUpdateForm, CreateContactForm
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.models import User
 from django.conf import settings
-from accounts.models import Account
+from accounts.models import Account, ContactUser
 from postad.models import PostAD, Bookmark
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -101,5 +101,30 @@ class BookmarkAdPostView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(BookmarkAdPostView, self).get_context_data(**kwargs)
+        context["profile"] = self.request.user
+        return context
+
+
+class ContactUserView(LoginRequiredMixin, ListView):
+    model = ContactUser
+    template_name = "accounts/contacts.html"
+    context_object_name = "contacts"
+
+    def get_queryset(self):
+        return ContactUser.objects.filter(receiver_user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super(ContactUserView, self).get_context_data(**kwargs)
+        context["profile"] = self.request.user
+        return context
+
+
+class SendContactView(LoginRequiredMixin, CreateView):
+    model = ContactUser
+    template_name = "accounts/send-contact.html"
+    form_class = CreateContactForm
+
+    def get_context_data(self, **kwargs):
+        context = super(SendContactView, self).get_context_data(**kwargs)
         context["profile"] = self.request.user
         return context

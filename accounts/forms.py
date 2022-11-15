@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Field, Layout
+from accounts.models import ContactUser
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -56,3 +57,9 @@ class UserProfileUpdateForm(forms.ModelForm):
         widgets = {
             "dob": forms.DateInput(attrs={"type": "date"})
         }
+
+
+class CreateContactForm(forms.ModelForm):
+    class Meta:
+        model = ContactUser
+        fields = ["review"]

@@ -125,3 +125,23 @@ class Bookmark(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.post.title}"
+
+
+class ReportAdPost(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    post = models.ForeignKey(PostAD, on_delete=models.CASCADE)
+    comment = models.TextField()
+
+    REPORT_SUBJECT = [
+        ("Offensive content", "Offensive content"),
+        ("Fraud", "Fraud"),
+        ("Duplicate ad", "Duplicate ad"),
+        ("Product already sold", "Product already sold"),
+        ("Other", "Other"),
+    ]
+    subject = models.CharField(max_length=100, choices=REPORT_SUBJECT)
+
+    report_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.post.title} - {self.subject}"

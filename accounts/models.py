@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.conf import settings
 
 
 
@@ -78,3 +79,15 @@ class Account(AbstractBaseUser):
     
     def has_module_perms(self, add_label):
         return True
+
+
+class ContactUser(models.Model):
+    sender_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="sender_user")
+    receiver_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="receiver_user")
+    subject = models.CharField(max_length=150)
+    message = models.TextField()
+    review = models.BooleanField(default=False)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.sender_user} - {self.receiver_user} - {self.subject}"

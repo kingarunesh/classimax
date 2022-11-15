@@ -12,4 +12,6 @@ urlpatterns = [
     path("update-profile/<int:pk>/", UpdateUserProfile.as_view(), name="update_profile"),
     path("my-ad-posts/", MyAdPostView.as_view(), name="my_adposts"),
     path("bookmarks/", BookmarkAdPostView.as_view(), name="bookmark_adposts"),
+    path("contacts/", ContactUserView.as_view(), name="user_contacts"),
+    path("send-contact/", SendContactView.as_view(), name="send_contact"),
 ]
