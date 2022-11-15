@@ -28,7 +28,7 @@ class PostAdCreationForm(forms.ModelForm):
             Field("image5", css_class="form-control bg-white"),
         )
 
-        self.helper.add_input(Submit("submit", "Ad Create", css_class="btn btn-primary d-block mt-2"))
+        self.helper.add_input(Submit("submit", "Submit", css_class="btn btn-primary d-block mt-2"))
     
     class Meta:
         model = PostAD

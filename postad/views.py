@@ -1,9 +1,9 @@
-from django.views.generic import TemplateView, ListView, DetailView, CreateView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView
 from postad.models import PostAD
 from django.db.models import F, Q
 from postad.forms import PostAdCreationForm
 from django.urls import reverse_lazy
-from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
 
 
 class IndexView(TemplateView):
@@ -43,3 +43,22 @@ class PostAdCreateView(CreateView):
         form.save()
         
         return super(PostAdCreateView, self).form_valid(form)
+
+
+class UpdatePostAdView(UpdateView):
+    model = PostAD
+    template_name = "postad/update-postad.html"
+    form_class = PostAdCreationForm
+
+    def get_success_url(self):
+        return reverse_lazy("postad:postad_detail", kwargs={"pk": self.object.id, "slug": self.object.slug})
+    
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(UpdatePostAdView, self).form_valid(form)
+    
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.user != request.user:
+            return HttpResponseRedirect("/")
+        return super(UpdatePostAdView, self).get(request, *args, **kwargs)

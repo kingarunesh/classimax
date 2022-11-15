@@ -284,6 +284,9 @@
               <li>Check the item before you buy</li>
               <li>Pay only after collecting the item</li>
               <li>Pay only after collecting the item</li>
+              {% if request.user == post.user %}
+              <li><a href="{% url 'postad:update_postad' pk=post.id slug=post.slug %}">Update Ad Post</a></li>
+              {% endif %}
             </ul>
           </div>
           <!-- Coupon Widget -->

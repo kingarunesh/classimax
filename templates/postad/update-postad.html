@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+<!--  -->
+{% load crispy_forms_tags %}
+<!--  -->
+
+{% block content %}
+
+<section class="advt-post bg-gray py-5">
+  <div class="container">
+    <!-- errors  -->
+    {% if form.errors %}
+    <div id="errors">
+      <div class="inner">
+        <p style="color: red">Please correct the errors below</p>
+        <ul>
+          {% for field in form %}
+          <!--  -->
+          {% if field.errors %}
+          <li>{{form.label}} : {{field.errors|striptags}}</li>
+          {% endif %}
+          <!--  -->
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    {% endif %}
+    <!-- end errors  -->
+
+    <div class="row">
+      <div class="col-lg-8">
+        <fieldset class="border border-gary px-3 px-md-4 py-4 mb-5">
+          <!-- fields -->
+
+          <!-- error -->
+          {% if form.errors %}
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {% for key, value in form.errors.items %}
+            <!--  -->
+            <strong>{{key}}</strong> {{value}}
+            <!--  -->
+            {% endfor %}
+          </div>
+          {% endif %}
+          <!-- end error -->
+
+          {% crispy form %}
+
+          <!-- end fields -->
+        </fieldset>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
