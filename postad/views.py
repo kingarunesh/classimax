@@ -37,7 +37,11 @@ class PostAdDetailView(LoginRequiredMixin, DetailView, FormMixin):
         return super(PostAdDetailView, self).get(request, *args, **kwargs)
     
     def form_valid(self, form):
-        Bookmark.objects.create(user=self.request.user, post=self.object)
+        saved_adpost = Bookmark.objects.filter(user=self.request.user, post=self.object)
+        if saved_adpost:
+            saved_adpost.delete()
+        else:
+            Bookmark.objects.create(user=self.request.user, post=self.object)
         return super(PostAdDetailView, self).form_valid(form)
     
     def post(self, *args, **kwargs):
