@@ -2,6 +2,7 @@ from postad.models import *
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Field, Layout
+from postad.models import Bookmark
 
 
 class PostAdCreationForm(forms.ModelForm):
@@ -53,3 +54,9 @@ class PostAdCreationForm(forms.ModelForm):
         widgets = {
             "purchase_year": forms.DateInput(attrs={"type": "date"})
         }
+
+
+class BookmarkForm(forms.ModelForm):
+    class Meta:
+        model = Bookmark
+        fields = "__all__"

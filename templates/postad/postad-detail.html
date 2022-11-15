@@ -288,6 +288,26 @@
               <li><a href="{% url 'postad:update_postad' pk=post.id slug=post.slug %}">Update Ad Post</a></li>
               <li><a href="{% url 'postad:delete_adpost' pk=post.id slug=post.slug %}">Delete Ad Post</a></li>
               {% endif %}
+              <br />
+              <!-- bookmar -->
+              <li style="font-size: 1.5rem">
+                <form action="" method="POST">
+                  {% csrf_token %}
+                  <!--  -->
+                  <!--  -->
+                  {% if not bookmark %}
+                  <button type="submit" class="btn btn-light" style="font-weight: bold; font-size: 1.2rem">
+                    <i class="fa fa-bookmark-o"></i> Bookmark
+                  </button>
+                  {% else %}
+                  <a href="#"></a>
+                  <button type="submit" class="btn btn-light" style="font-weight: bold; font-size: 1.2rem">
+                    <i class="fa fa-bookmark" aria-hidden="true"></i> Bookmarked
+                  </button>
+                  {% endif %}
+                </form>
+              </li>
+              <!-- end bookmark -->
             </ul>
           </div>
           <!-- Coupon Widget -->

@@ -10,5 +10,5 @@ urlpatterns = [
     path("post/<int:pk>/<slug:slug>/", PostAdDetailView.as_view(), name="postad_detail"),
     path("create-postad/", PostAdCreateView.as_view(), name="create_postad"),
     path("update/<int:pk>/<slug:slug>/", UpdatePostAdView.as_view(), name="update_postad"),
-    path("delete/<int:pk>/<slug:slug>", DeletePostAdView.as_view(), name="delete_adpost")
+    path("delete/<int:pk>/<slug:slug>", DeletePostAdView.as_view(), name="delete_adpost"),
 ]

@@ -1,10 +1,11 @@
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
-from postad.models import PostAD
+from postad.models import PostAD, Bookmark
 from django.db.models import F, Q
-from postad.forms import PostAdCreationForm
+from postad.forms import PostAdCreationForm, BookmarkForm
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import FormMixin
 
 
 class IndexView(TemplateView):
@@ -20,14 +21,35 @@ class PostAdView(ListView):
         return PostAD.objects.order_by("-id")
 
 
-class PostAdDetailView(DetailView):
+class PostAdDetailView(LoginRequiredMixin, DetailView, FormMixin):
     model = PostAD
     template_name = "postad/postad-detail.html"
     context_object_name = "post"
+    form_class = BookmarkForm
+
+    def get_context_data(self, **kwargs):
+        context = super(PostAdDetailView, self).get_context_data(**kwargs)
+        context["bookmark"] = Bookmark.objects.filter(post=self.object.id, user=self.request.user)
+        return context
 
     def get(self, request, *args, **kwargs):
         self.hits = PostAD.objects.filter(id=self.kwargs["pk"]).update(hits=F("hits")+1)
         return super(PostAdDetailView, self).get(request, *args, **kwargs)
+    
+    def form_valid(self, form):
+        Bookmark.objects.create(user=self.request.user, post=self.object)
+        return super(PostAdDetailView, self).form_valid(form)
+    
+    def post(self, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy("postad:postad_detail", kwargs={"pk": self.object.id, "slug": self.object.slug})
 
 
 class PostAdCreateView(LoginRequiredMixin, CreateView):
