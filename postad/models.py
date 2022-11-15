@@ -116,3 +116,12 @@ class PostAD(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Bookmark(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    post = models.ForeignKey(PostAD, on_delete=models.CASCADE)
+    save_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.post.title}"
