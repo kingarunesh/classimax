@@ -75,3 +75,17 @@ class UpdateUserProfile(LoginRequiredMixin, UpdateView):
             return HttpResponseRedirect("/")
         
         return super(UpdateUserProfile, self).get(request, *args, **kwargs)
+
+
+class MyAdPostView(LoginRequiredMixin, ListView):
+    model = PostAD
+    template_name = "accounts/my-ad-post.html"
+    context_object_name = "adposts"
+
+    def get_queryset(self):
+        return PostAD.objects.filter(user=self.request.user).order_by("-id")
+    
+    def get_context_data(self, **kwargs):
+        context = super(MyAdPostView, self).get_context_data(**kwargs)
+        context["profile"] = self.request.user
+        return context
