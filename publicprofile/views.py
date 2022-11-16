@@ -77,3 +77,11 @@ class ContactAdUserView(LoginRequiredMixin, DetailView, FormMixin):
     
     def get_success_url(self):
         return reverse_lazy("publicprofile:public_profile", kwargs={"pk": self.request.user.id})
+    
+    def get(self, request, *args, **kwargs):
+        ad_user = User.objects.get(id=kwargs["pk"])
+
+        if ad_user == request.user:
+            return HttpResponseRedirect("/")
+        
+        return super(ContactAdUserView, self).get(request, *args, **kwargs)
