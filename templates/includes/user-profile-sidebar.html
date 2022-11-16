@@ -10,29 +10,29 @@
     <!-- User Name -->
     <h5 class="text-center">{{profile.first_name}} {{profile.last_name}}</h5>
     <p>Joined {{profile.date_joined|date:"d M o"}}</p>
-    <a href="{% url 'accounts:update_profile' pk=profile.id %}" class="btn btn-main-sm">Edit Profile</a>
+    <a href="{% url 'dashboard:update_profile' pk=profile.id %}" class="btn btn-main-sm">Edit Profile</a>
   </div>
   <!-- Dashboard Links -->
   <div class="widget user-dashboard-menu">
     <ul>
-        <li {% if '/accounts/profile/' in request.path %} class="active" {% endif %}>
-        <a href="{% url 'accounts:profile' %}"><i class="fa fa-user"></i>Profile</a>
+        <li {% if '/dashboard/profile/' in request.path %} class="active" {% endif %}>
+        <a href="{% url 'dashboard:profile' %}"><i class="fa fa-user"></i>Profile</a>
       </li>
       
-      <li {% if '/accounts/my-ad-posts/' in request.path %} class="active" {% endif %} >
-        <a href="{% url 'accounts:my_adposts' %}"> <i class="fa fa-list-ul" aria-hidden="true"></i>My Ads</a> 
+      <li {% if '/dashboard/my-ad-posts/' in request.path %} class="active" {% endif %} >
+        <a href="{% url 'dashboard:my_adposts' %}"> <i class="fa fa-list-ul" aria-hidden="true"></i>My Ads</a> 
       </li>
 
-      <li {% if '/accounts/bookmarks/' in request.path %} class="active" {% endif %} >
-        <a href="{% url 'accounts:bookmark_adposts' %}"><i class="fa fa-bookmark-o"></i> Favourite Ads <span>5</span></a>
+      <li {% if '/dashboard/bookmarks/' in request.path %} class="active" {% endif %} >
+        <a href="{% url 'dashboard:bookmark_adposts' %}"><i class="fa fa-bookmark-o"></i> Favourite Ads <span>5</span></a>
       </li>
 
       <li>
         <a href="#"><i class="fa fa-commenting-o" aria-hidden="true"></i> Offers<span>5</span></a>
       </li>
 
-      <li {% if '/accounts/contacts/' in request.path %} class="active" {% endif %}>
-        <a href="{% url 'accounts:user_contacts' %}"><i class="fa fa-commenting-o" aria-hidden="true"></i> Contacts<span>5</span></a>
+      <li {% if '/dashboard/contacts/' in request.path %} class="active" {% endif %}>
+        <a href="{% url 'dashboard:user_contacts' %}"><i class="fa fa-commenting-o" aria-hidden="true"></i> Contacts<span>5</span></a>
       </li>
 
       <li>
@@ -43,8 +43,8 @@
         <a href="dashboard-pending-ads.html"><i class="fa fa-bolt"></i> Pending Approval<span>23</span></a>
       </li>
 
-      <li {% if '/accounts/update-profile/' in request.path %} class="active" {% endif %} >
-        <a href="{% url 'accounts:update_profile' pk=profile.id %}"><i class="fa fa-cog"></i> Settings</a>
+      <li {% if '/dashboard/update-profile/' in request.path %} class="active" {% endif %} >
+        <a href="{% url 'dashboard:update_profile' pk=profile.id %}"><i class="fa fa-cog"></i> Settings</a>
       </li>
 
       <li>
