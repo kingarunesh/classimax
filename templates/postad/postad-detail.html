@@ -265,12 +265,16 @@
             {% if post.user.image %}
             <img class="rounded-circle img-fluid mb-5 px-5" src="{{post.user.image.url}}" alt="" />
             {% endif %}
-            <h4><a href="user-profile.html">{{post.user.first_name}} {{post.user.last_name}}</a></h4>
+            <h4><a href="{% url 'publicprofile:public_profile' pk=post.user.id %}">{{post.user.first_name}} {{post.user.last_name}}</a></h4>
             <p class="member-time">Member Since - {{post.user.date_joined|date:'d M o'}}</p>
-            <a href="single.html">See all ads</a>
+            <a href="{% url 'publicprofile:ad_posts' pk=post.user.id %}">See all ads</a>
             <ul class="list-inline mt-20">
               <li class="list-inline-item">
-                <a href="contact-us.html" class="btn btn-contact d-inline-block btn-primary px-lg-5 my-1 px-md-3">Contact</a>
+                <a
+                  href="{% url 'publicprofile:contact_ad_user' pk=post.user.id %}"
+                  class="btn btn-contact d-inline-block btn-primary px-lg-5 my-1 px-md-3"
+                  >Contact</a
+                >
               </li>
               <li class="list-inline-item">
                 <a href="single.html" class="btn btn-offer d-inline-block btn-primary ml-n1 my-1 px-lg-4 px-md-3">Make an offer</a>

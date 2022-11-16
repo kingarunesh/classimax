@@ -33,7 +33,7 @@
       </li>
 
 
-      <li {% if '/dashboard/contacts/' in request.path %} class="active" {% endif %}>
+      <li {% if '/public/contact/' in request.path %} class="active" {% endif %}>
         <a href="{% url 'publicprofile:contact_ad_user' pk=profile.id %}"><i class="fa fa-commenting-o" aria-hidden="true"></i> Contacts<span>5</span></a>
       </li>
 
