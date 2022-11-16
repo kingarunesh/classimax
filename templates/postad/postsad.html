@@ -186,7 +186,7 @@
                 <div class="card">
                   <div class="thumb-content">
                     <div class="price">$200</div>
-                    <a href="single.html">
+                    <a href="{% url 'postad:postad_detail' pk=post.id slug=post.slug %}">
                       <img class="card-img-top img-fluid" src="{{post.image1.url}}" style="width: 255px; height: 167px" alt="Card image cap" />
                     </a>
                   </div>
