@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+<!--  -->
+
+{% block content %}
+
+<section class="page-title">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 offset-md-2 text-center">
+        <!-- Title text -->
+        <h3>Contact Us</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dashboard section">
+  <!-- Container Start -->
+  <div class="container">
+    <!-- Row Start -->
+    <div class="row">
+      <div class="col-lg-4">{% include "includes/public-user-profile-sidebar.html" %}</div>
+      <div class="col-lg-8">
+        <!-- Recently Favorited -->
+        <div class="widget dashboard-container my-adslist">
+          <h2 class="mb-5">Contact Me</h2>
+
+          <!-- contact us start-->
+          <form action="#" method="post">
+            {% csrf_token %}
+            <fieldset class="p-1">
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <input type="text" placeholder="Subject" name="subject" class="form-control" required />
+                  </div>
+                </div>
+              </div>
+              <textarea name="message" id="" placeholder="Write your message here..." class="border w-100 p-3 mt-3 mt-lg-4"></textarea>
+              <div class="btn-grounp">
+                <button type="submit" class="btn btn-primary mt-2 float-right">SUBMIT</button>
+              </div>
+            </fieldset>
+          </form>
+          <!--  -->
+        </div>
+      </div>
+    </div>
+    <!-- Row End -->
+  </div>
+  <!-- Container End -->
+</section>
+
+{% endblock %}

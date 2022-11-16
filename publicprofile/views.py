@@ -8,6 +8,8 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from accounts.models import Account, ContactUser
 from postad.models import PostAD, Bookmark
+from django.views.generic.edit import FormMixin
+
 
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -35,3 +37,43 @@ class AdPostPublicView(LoginRequiredMixin, ListView):
         context["total_adpost"] = PostAD.objects.filter(user=user_data).count()
         context["profile"] = user_data
         return context
+
+
+
+# class ContactAdUserView(LoginRequiredMixin, CreateView):
+#     model = ContactUser
+#     template_name = "publicprofile/contact.html"
+#     form_class = CreateContactForm
+
+#     def get_context_data(self, **kwargs):
+#         context = super(ContactAdUserView, self).get_context_data(**kwargs)
+#         context["profile"] = self.request.user
+#         return context
+
+class ContactAdUserView(LoginRequiredMixin, DetailView, FormMixin):
+    model = User
+    template_name = "publicprofile/contact.html"
+    form_class = CreateContactForm
+
+    def get_context_data(self, **kwargs):
+        context = super(ContactAdUserView, self).get_context_data(**kwargs)
+        context["profile"] = self.request.user
+        context["receiver_user"] = User.objects.get(pk=self.kwargs["pk"])
+        return context
+    
+    def form_valid(self, form, **kwargs):
+        form.instance.sender_user = self.request.user
+        form.instance.receiver_user = User.objects.get(pk=self.kwargs["pk"])
+        form.save()
+        return super(ContactAdUserView, self).form_valid(form)
+    
+    def post(self, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy("publicprofile:public_profile", kwargs={"pk": self.request.user.id})
