@@ -16,11 +16,11 @@
   <div class="widget user-dashboard-menu">
     <ul>
         <li {% if '/public/profile/' in request.path %} class="active" {% endif %}>
-        <a href="{% url 'dashboard:profile' %}"><i class="fa fa-user"></i>Profile</a>
+        <a href="{% url 'publicprofile:public_profile' pk=profile.id %}"><i class="fa fa-user"></i>Profile</a>
       </li>
       
-      <li {% if '/dashboard/my-ad-posts/' in request.path %} class="active" {% endif %} >
-        <a href="{% url 'dashboard:my_adposts' %}"> <i class="fa fa-list-ul" aria-hidden="true"></i>Ads</a> 
+      <li {% if '/public/ad-posts/' in request.path %} class="active" {% endif %} >
+        <a href="{% url 'publicprofile:ad_posts' pk=profile.id %}"> <i class="fa fa-list-ul" aria-hidden="true"></i>Ads</a> 
       </li>
 
       <li {% if '/dashboard/bookmarks/' in request.path %} class="active" {% endif %} >
@@ -32,7 +32,7 @@
       </li>
 
       <li {% if '/dashboard/contacts/' in request.path %} class="active" {% endif %}>
-        <a href="{% url 'dashboard:user_contacts' %}"><i class="fa fa-commenting-o" aria-hidden="true"></i> Contacts<span>5</span></a>
+        <a href=""><i class="fa fa-commenting-o" aria-hidden="true"></i> Contacts<span>5</span></a>
       </li>
 
       <li>

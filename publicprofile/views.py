@@ -18,3 +18,19 @@ class PublicUserProfileView(LoginRequiredMixin, DetailView):
     model = User
     template_name = "publicprofile/public-profile.html"
     context_object_name = "profile"
+
+
+class AdPostPublicView(LoginRequiredMixin, ListView):
+    model = PostAD
+    template_name = "publicprofile/ad-post-list.html"
+    context_object_name = "posts"
+
+    def get_queryset(self):
+        return PostAD.objects.filter(user=self.request.user).order_by("-id")
+    
+    def get_context_data(self, **kwargs):
+        context = super(AdPostPublicView, self).get_context_data(**kwargs)
+        user_data = User.objects.get(id=self.kwargs["pk"])
+        context["adposts"] = PostAD.objects.filter(user=user_data)
+        context["profile"] = user_data
+        return context
