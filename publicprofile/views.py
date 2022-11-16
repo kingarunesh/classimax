@@ -31,6 +31,7 @@ class AdPostPublicView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(AdPostPublicView, self).get_context_data(**kwargs)
         user_data = User.objects.get(id=self.kwargs["pk"])
-        context["adposts"] = PostAD.objects.filter(user=user_data)
+        context["adposts"] = PostAD.objects.filter(user=user_data).order_by("-id")
+        context["total_adpost"] = PostAD.objects.filter(user=user_data).count()
         context["profile"] = user_data
         return context

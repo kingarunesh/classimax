@@ -10,7 +10,8 @@
     <!-- User Name -->
     <h5 class="text-center">{{profile.first_name}} {{profile.last_name}}</h5>
     <p>Joined {{profile.date_joined|date:"d M o"}}</p>
-    <a href="{% url 'dashboard:update_profile' pk=profile.id %}" class="btn btn-main-sm">Follow</a>
+    <a href="#" class="btn btn-main-sm">Follow</a>
+    <a href="#" class="btn btn-main-sm bg-dark">Following</a>
   </div>
   <!-- Dashboard Links -->
   <div class="widget user-dashboard-menu">
@@ -18,30 +19,26 @@
         <li {% if '/public/profile/' in request.path %} class="active" {% endif %}>
         <a href="{% url 'publicprofile:public_profile' pk=profile.id %}"><i class="fa fa-user"></i>Profile</a>
       </li>
+
+      <li>
+        <a href="dashboard-pending-ads.html"><i class="fa fa-bolt"></i> Followers<span>23</span></a>
+      </li>
+
+      <li>
+        <a href="dashboard-pending-ads.html"><i class="fa fa-bolt"></i> Following<span>23</span></a>
+      </li>
       
       <li {% if '/public/ad-posts/' in request.path %} class="active" {% endif %} >
         <a href="{% url 'publicprofile:ad_posts' pk=profile.id %}"> <i class="fa fa-list-ul" aria-hidden="true"></i>Ads</a> 
       </li>
 
-      <li {% if '/dashboard/bookmarks/' in request.path %} class="active" {% endif %} >
-        <a href="{% url 'dashboard:bookmark_adposts' %}"><i class="fa fa-bookmark-o"></i> Favourite Ads <span>5</span></a>
-      </li>
-
-      <li>
-        <a href="#"><i class="fa fa-commenting-o" aria-hidden="true"></i> Offers<span>5</span></a>
-      </li>
 
       <li {% if '/dashboard/contacts/' in request.path %} class="active" {% endif %}>
         <a href=""><i class="fa fa-commenting-o" aria-hidden="true"></i> Contacts<span>5</span></a>
       </li>
 
-      <li>
-        <a href="dashboard-archived-ads.html"><i class="fa fa-file-archive-o"></i>Archeved Ads <span>12</span></a>
-      </li>
 
-      <li>
-        <a href="dashboard-pending-ads.html"><i class="fa fa-bolt"></i> Pending Approval<span>23</span></a>
-      </li>
+      
 
     </ul>
   </div>
