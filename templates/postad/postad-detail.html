@@ -10,11 +10,11 @@
 
 {% block content %}
 
+<!-- search -->
 <section class="page-search">
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <!-- Advance Search -->
         <div class="advance-search nice-select-white">
           <form action="{% url 'postad:search_results' %}" method="GET">
             <div class="form-row align-items-center">
@@ -44,6 +44,7 @@
     </div>
   </div>
 </section>
+<!-- end search -->
 
 <!-----------------------------------------------------------------------------
                             postad detail
@@ -52,6 +53,7 @@
 <section class="section bg-gray">
   <!-- Container Start -->
   <div class="container">
+    <!-- <div style="width: 90%; margin: auto"> -->
     <div class="row">
       <!-- Left sidebar -->
       <div class="col-lg-8">
