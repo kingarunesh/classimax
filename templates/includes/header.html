@@ -152,17 +152,14 @@
             <ul class="navbar-nav ml-auto mt-10">
               {% if user.is_authenticated %}
 
-              <!-- dropdown -->
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Dropdown </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="{% url 'dashboard:profile' %}">Profile</a></li>
-                  <li><hr class="dropdown-divider" /></li>
-                  <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">Logout</a></li>
-                  <li><hr class="dropdown-divider" /></li>
-                </ul>
+              <!-- test -->
+
+              <li class="nav-item">
+                <a class="nav-link login-button" href="{% url 'dashboard:profile' %}">Dashboard</a>
               </li>
-              <!-- dropdown -->
+
+              <!-- test -->
+
               <li class="nav-item">
                 <a class="nav-link text-white add-button" href="{% url 'postad:create_postad' %}"><i class="fa fa-plus-circle"></i> Add Listing</a>
               </li>

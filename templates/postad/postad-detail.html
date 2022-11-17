@@ -258,7 +258,7 @@
         <div class="sidebar">
           <div class="widget price text-center">
             <h4>Price</h4>
-            <p>₹ {{post.price|intcomma}}</p>
+            <p>${{post.price|intcomma}}</p>
           </div>
           <!-- User Profile widget -->
           <div class="widget user text-center">
@@ -274,11 +274,31 @@
                   href="{% url 'publicprofile:contact_ad_user' pk=post.user.id %}"
                   class="btn btn-contact d-inline-block btn-primary px-lg-5 my-1 px-md-3"
                 >
-                  Contact
+                  Contact Me
                 </a>
               </li>
               <li class="list-inline-item">
-                <a href="single.html" class="btn btn-offer d-inline-block btn-primary ml-n1 my-1 px-lg-4 px-md-3">Show Interest</a>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Make a Call</button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Contact Info</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <div><strong>Contact Number : </strong>{{post.user.phone}}</div>
+                        <div><strong>Email Address : </strong>{{post.user.email}}</div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </li>
             </ul>
           </div>
