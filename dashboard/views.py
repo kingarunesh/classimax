@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from accounts.models import Account, ContactUser
 from postad.models import PostAD, Bookmark
+from friends.models import Follow
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -102,5 +103,33 @@ class SendContactView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(SendContactView, self).get_context_data(**kwargs)
+        context["profile"] = self.request.user
+        return context
+
+
+class FollowingsListView(LoginRequiredMixin, ListView):
+    model = Follow
+    template_name = "dashboard/following.html"
+    context_object_name = "followings"
+
+    def get_queryset(self):
+        return Follow.objects.filter(following=self.request.user).order_by("-date")
+    
+    def get_context_data(self, **kwargs):
+        context = super(FollowingsListView, self).get_context_data(**kwargs)
+        context["profile"] = self.request.user
+        return context
+
+
+class FollowersListView(LoginRequiredMixin, ListView):
+    model = Follow
+    template_name = "dashboard/followers.html"
+    context_object_name = "followers"
+
+    def get_queryset(self):
+        return Follow.objects.filter(followers=self.request.user).order_by("-date")
+    
+    def get_context_data(self, **kwargs):
+        context = super(FollowersListView, self).get_context_data(**kwargs)
         context["profile"] = self.request.user
         return context

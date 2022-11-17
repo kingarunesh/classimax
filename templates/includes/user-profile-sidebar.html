@@ -18,12 +18,12 @@
         <li {% if '/dashboard/profile/' in request.path %} class="active" {% endif %}>
         <a href="{% url 'dashboard:profile' %}"><i class="fa fa-user"></i>Profile</a>
       </li>
-      <li>
-        <a href="#"><i class="fa fa-bolt"></i> Followers<span>23</span></a>
+      <li {% if '/dashboard/followers/' in request.path %} class="active" {% endif %}>
+        <a href="{% url 'dashboard:followers' %}"><i class="fa fa-bolt"></i> Followers<span>23</span></a>
       </li>
 
-      <li>
-        <a href="#"><i class="fa fa-bolt"></i> Following<span>23</span></a>
+      <li {% if '/dashboard/following/' in request.path %} class="active" {% endif %} >
+        <a href="{% url 'dashboard:following' %}"><i class="fa fa-bolt"></i> Following<span>23</span></a>
       </li>
       
       <li {% if '/dashboard/my-ad-posts/' in request.path %} class="active" {% endif %} >
