@@ -9,6 +9,7 @@ from django.conf import settings
 from accounts.models import Account, ContactUser
 from postad.models import PostAD, Bookmark
 from django.views.generic.edit import FormMixin
+from friends.models import Follow
 
 
 from django.contrib.auth import get_user_model
@@ -85,3 +86,28 @@ class ContactAdUserView(LoginRequiredMixin, DetailView, FormMixin):
             return HttpResponseRedirect("/")
         
         return super(ContactAdUserView, self).get(request, *args, **kwargs)
+
+
+
+class FollowingsDetailView(LoginRequiredMixin, DetailView):
+    model = Follow
+    template_name = "publicprofile/following.html"
+    context_object_name = "xyz"
+    
+    def get_context_data(self, **kwargs):
+        context = super(FollowingsDetailView, self).get_context_data(**kwargs)
+        context["profile"] = Account.objects.get(id=self.kwargs["pk"])
+        context["followings"] = Follow.objects.filter(following=self.kwargs["pk"]).order_by("-date")
+        return context
+
+
+class FollowersDetailView(LoginRequiredMixin, DetailView):
+    model = Follow
+    template_name = "publicprofile/followers.html"
+    context_object_name = "abc"
+    
+    def get_context_data(self, **kwargs):
+        context = super(FollowersDetailView, self).get_context_data(**kwargs)
+        context["profile"] = Account.objects.get(id=self.kwargs["pk"])
+        context["followers"] = Follow.objects.filter(followers=self.kwargs["pk"]).order_by("-date")
+        return context

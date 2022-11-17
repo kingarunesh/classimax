@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+<!--  -->
+
+{% block content %}
+
+<section class="dashboard section">
+  <!-- Container Start -->
+  <div class="container">
+    <!-- Row Start -->
+    <div class="row">
+      <div class="col-lg-4">{% include "includes/public-user-profile-sidebar.html" %}</div>
+      <div class="col-lg-8">
+        <!-- Recently Favorited -->
+        <div class="widget dashboard-container my-adslist">
+          <h2 class="mb-5">Following Ads</h2>
+          {% if followings %}
+          <table class="table table-responsive product-dashboard-table">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Username</th>
+                <th>Date</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for following in followings %}
+              <tr>
+                <td class="product-thumb">
+                  {% if following.followers.image %}
+                  <img width="80px" height="auto" src="{{following.followers.image.url}}" alt="image description" />
+                  {% endif %}
+                </td>
+                <td class="product-details">
+                  <h3 class="title">{{following.followers.username}}</h3>
+                  <span><strong>Started on:</strong><time>{{following.date|date:'d M o'}}</time> </span>
+                </td>
+                <td class="action" data-title="Action">
+                  <div class="">
+                    <ul class="list-inline justify-content-center">
+                      <li class="list-inline-item">
+                        <a data-toggle="tooltip" data-placement="top" title="View" class="view" href="">
+                          <i class="fa fa-eye"></i>
+                        </a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a data-toggle="tooltip" data-placement="top" title="Delete" class="delete" href="#">
+                          <i class="fa fa-trash"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% else %}
+          <h5 style="color: red">☹️ You don't have any bookmark post.</h5>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <!-- Row End -->
+  </div>
+  <!-- Container End -->
+</section>
+
+{% endblock %}

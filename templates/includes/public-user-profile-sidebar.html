@@ -20,12 +20,12 @@
         <a href="{% url 'publicprofile:public_profile' pk=profile.id %}"><i class="fa fa-user"></i>Profile</a>
       </li>
 
-      <li>
-        <a href="dashboard-pending-ads.html"><i class="fa fa-bolt"></i> Followers<span>23</span></a>
+      <li {% if '/public/followers/' in request.path %} class="active" {% endif %}>
+        <a href="{% url 'publicprofile:followers' pk=profile.id %}"><i class="fa fa-bolt"></i> Followers<span>23</span></a>
       </li>
 
-      <li>
-        <a href="dashboard-pending-ads.html"><i class="fa fa-bolt"></i> Following<span>23</span></a>
+      <li {% if '/public/following/' in request.path %} class="active" {% endif %}>
+        <a href="{% url 'publicprofile:following' pk=profile.id %}"><i class="fa fa-bolt"></i> Following<span>23</span></a>
       </li>
       
       <li {% if '/public/ad-posts/' in request.path %} class="active" {% endif %} >
