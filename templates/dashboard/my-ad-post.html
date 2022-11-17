@@ -12,7 +12,9 @@
       <div class="col-lg-8">
         <!-- Recently Favorited -->
         <div class="widget dashboard-container my-adslist">
-          <h3 class="widget-header">My Ads</h3>
+          <h2>My Ads</h2>
+          <hr />
+          {% if adposts %}
           <table class="table table-responsive product-dashboard-table">
             <thead>
               <tr>
@@ -83,6 +85,9 @@
               {% endfor %}
             </tbody>
           </table>
+          {% else %}
+          <h5 style="color: red">☹️ You don't have any ad post.</h5>
+          {% endif %}
         </div>
 
         <!-- pagination -->

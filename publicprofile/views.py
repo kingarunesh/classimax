@@ -57,8 +57,8 @@ class ContactAdUserView(LoginRequiredMixin, DetailView, FormMixin):
 
     def get_context_data(self, **kwargs):
         context = super(ContactAdUserView, self).get_context_data(**kwargs)
-        context["profile"] = self.request.user
-        context["receiver_user"] = User.objects.get(pk=self.kwargs["pk"])
+        # context["profile"] = self.request.user
+        context["profile"] = User.objects.get(pk=self.kwargs["pk"])
         return context
     
     def form_valid(self, form, **kwargs):
@@ -76,7 +76,7 @@ class ContactAdUserView(LoginRequiredMixin, DetailView, FormMixin):
             return self.form_valid(form)
     
     def get_success_url(self):
-        return reverse_lazy("publicprofile:public_profile", kwargs={"pk": self.request.user.id})
+        return reverse_lazy("publicprofile:public_profile", kwargs={"pk": self.kwargs["pk"]})
     
     def get(self, request, *args, **kwargs):
         ad_user = User.objects.get(id=kwargs["pk"])
