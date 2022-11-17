@@ -131,6 +131,9 @@ class SearchResultView(ListView):
             
         elif query != '' and category == '' and location != '':
             return PostAD.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).filter(city__icontains=location).order_by("-id").distinct()
+        
+        elif query == '' and category == '' and location != '':
+            return PostAD.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).filter(city__icontains=location).order_by("-id").distinct()
 
         elif query != '':
             return PostAD.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).order_by("-id").distinct()
