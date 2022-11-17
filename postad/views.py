@@ -1,7 +1,7 @@
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from postad.models import PostAD, Bookmark
 from django.db.models import F, Q
-from postad.forms import PostAdCreationForm, BookmarkForm
+from postad.forms import PostAdCreationForm, BookmarkForm, UpdatePostAdCreationForm
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -75,7 +75,7 @@ class PostAdCreateView(LoginRequiredMixin, CreateView):
 class UpdatePostAdView(LoginRequiredMixin, UpdateView):
     model = PostAD
     template_name = "postad/update-postad.html"
-    form_class = PostAdCreationForm
+    form_class = UpdatePostAdCreationForm
 
     def get_success_url(self):
         return reverse_lazy("postad:postad_detail", kwargs={"pk": self.object.id, "slug": self.object.slug})
