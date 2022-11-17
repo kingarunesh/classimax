@@ -25,15 +25,16 @@ class PublicUserProfileView(LoginRequiredMixin, DetailView, FormMixin):
 
     def get_context_data(self, **kwargs):
         context = super(PublicUserProfileView, self).get_context_data(**kwargs)
-        context["follow"] = Follow.objects.filter(following=self.request.user) # not working well
+        context["follow"] = Follow.objects.filter(user=self.request.user, following=self.kwargs["pk"])
         return context
     
     def form_valid(self, form):
-        following = Follow.objects.filter(following=self.request.user) # not working well
+        following = Follow.objects.filter(user=self.request.user, following=self.kwargs["pk"])
         if following:
             following.delete()
         else:
-            Follow.objects.create(following=self.request.user)
+            add_user = Account.objects.get(id=self.kwargs["pk"])
+            Follow.objects.create(user=self.request.user, following=add_user)
         return super(PublicUserProfileView, self).form_valid(form)
     
     def post(self, *args, **kwargs):
