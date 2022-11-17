@@ -13,8 +13,35 @@
       <div class="col-lg-4">{% include "includes/public-user-profile-sidebar.html" %}</div>
       <div class="col-lg-8">
         <!-- Edit Profile Welcome Text -->
-        <div class="widget welcome-message">
-          <h2>Public Profile</h2>
+        <div class="widget user-dashboard-profile">
+          <!-- User Image -->
+          <div class="row">
+            <div class="col-lg-5">
+              <div class="profile-thumb">
+                {% if profile.image %}
+                <img src="{{profile.image.url}}" alt="" class="rounded-circle" style="width: 100%; height: auto; text-align: center" />
+                {% endif %}
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <h5 class="text-center">{{profile.first_name}} {{profile.last_name}}</h5>
+              <p>Joined {{profile.date_joined|date:"d M o"}}</p>
+            </div>
+            <!-- followers & following -->
+            <div class="col-lg-3">
+              <form action="" method="POST">
+                {% csrf_token %}
+                <!--  -->
+                {% if not follow %}
+                <button type="submit" class="btn btn-main-sm">Follow</button>
+                {% else %}
+                <a href="#"></a>
+                <button type="submit" class="btn btn-main-sm bg-dark">Following</button>
+                {% endif %}
+              </form>
+            </div>
+          </div>
+          <!-- end followers & following -->
         </div>
         <!-- Edit Personal Info -->
 
