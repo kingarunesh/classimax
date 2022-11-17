@@ -46,7 +46,7 @@ class Account(AbstractBaseUser):
     email = models.CharField(max_length=300, unique=True)
     phone = models.CharField(max_length=50, null=True, blank=True)
     about = models.TextField(null=True, blank=True)
-    image = models.ImageField(null=True, blank=True, upload_to="users/profile/")
+    image = models.ImageField(null=True, blank=True, upload_to="users/profile/", default="users/default.png")
     dob = models.DateField(null=True, blank=True)
 
     GENDER_TYPE_LIST = [

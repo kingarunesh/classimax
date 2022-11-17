@@ -88,6 +88,14 @@ class ContactAdUserView(LoginRequiredMixin, DetailView, FormMixin):
         return super(ContactAdUserView, self).get(request, *args, **kwargs)
 
 
+class UsersListView(LoginRequiredMixin, ListView):
+    template_name = "publicprofile/user-list.html"
+    model = Account
+    context_object_name = "users"
+
+    def get_queryset(self):
+        return Account.objects.all().order_by("-id")
+
 
 class FollowingsDetailView(LoginRequiredMixin, DetailView):
     model = Follow

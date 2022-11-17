@@ -8,5 +8,6 @@ urlpatterns = [
     path("ad-posts/<int:pk>/", AdPostPublicView.as_view(), name="ad_posts"),
     path("contact/<int:pk>/", ContactAdUserView.as_view(), name="contact_ad_user"),
     path("following/<int:pk>/", FollowingsDetailView.as_view(), name="following"),
-    path("followers/<int:pk>/", FollowersDetailView.as_view(), name="followers")
+    path("followers/<int:pk>/", FollowersDetailView.as_view(), name="followers"),
+    path("users/", UsersListView.as_view(), name="user_list")
 ]
