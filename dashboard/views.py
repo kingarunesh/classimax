@@ -113,7 +113,7 @@ class FollowingsListView(LoginRequiredMixin, ListView):
     context_object_name = "followings"
 
     def get_queryset(self):
-        return Follow.objects.filter(following=self.request.user).order_by("-date")
+        return Follow.objects.filter(user=self.request.user).order_by("-date")
     
     def get_context_data(self, **kwargs):
         context = super(FollowingsListView, self).get_context_data(**kwargs)
@@ -127,7 +127,7 @@ class FollowersListView(LoginRequiredMixin, ListView):
     context_object_name = "followers"
 
     def get_queryset(self):
-        return Follow.objects.filter(followers=self.request.user).order_by("-date")
+        return Follow.objects.filter(following=self.request.user).order_by("-date")
     
     def get_context_data(self, **kwargs):
         context = super(FollowersListView, self).get_context_data(**kwargs)

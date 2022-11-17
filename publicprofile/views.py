@@ -10,17 +10,44 @@ from accounts.models import Account, ContactUser
 from postad.models import PostAD, Bookmark
 from django.views.generic.edit import FormMixin
 from friends.models import Follow
-
+from publicprofile.forms import FollowForm
 
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
 
-class PublicUserProfileView(LoginRequiredMixin, DetailView):
+class PublicUserProfileView(LoginRequiredMixin, DetailView, FormMixin):
     model = User
     template_name = "publicprofile/public-profile.html"
     context_object_name = "profile"
+    form_class = FollowForm
+
+    def get_context_data(self, **kwargs):
+        context = super(PublicUserProfileView, self).get_context_data(**kwargs)
+        context["follow"] = Follow.objects.filter(following=self.request.user) # not working well
+        return context
+    
+    def form_valid(self, form):
+        following = Follow.objects.filter(following=self.request.user) # not working well
+        if following:
+            following.delete()
+        else:
+            Follow.objects.create(following=self.request.user)
+        return super(PublicUserProfileView, self).form_valid(form)
+    
+    def post(self, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy("publicprofile:public_profile", kwargs={"pk": self.object.id})
+
+
 
 
 class AdPostPublicView(LoginRequiredMixin, ListView):
@@ -39,17 +66,6 @@ class AdPostPublicView(LoginRequiredMixin, ListView):
         context["profile"] = user_data
         return context
 
-
-
-# class ContactAdUserView(LoginRequiredMixin, CreateView):
-#     model = ContactUser
-#     template_name = "publicprofile/contact.html"
-#     form_class = CreateContactForm
-
-#     def get_context_data(self, **kwargs):
-#         context = super(ContactAdUserView, self).get_context_data(**kwargs)
-#         context["profile"] = self.request.user
-#         return context
 
 class ContactAdUserView(LoginRequiredMixin, DetailView, FormMixin):
     model = User
@@ -97,7 +113,7 @@ class UsersListView(LoginRequiredMixin, ListView):
         return Account.objects.all().order_by("-id")
 
 
-class FollowingsDetailView(LoginRequiredMixin, DetailView):
+class FollowingsDetailView(LoginRequiredMixin, ListView):
     model = Follow
     template_name = "publicprofile/following.html"
     context_object_name = "xyz"
@@ -105,11 +121,11 @@ class FollowingsDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(FollowingsDetailView, self).get_context_data(**kwargs)
         context["profile"] = Account.objects.get(id=self.kwargs["pk"])
-        context["followings"] = Follow.objects.filter(following=self.kwargs["pk"]).order_by("-date")
+        context["followings"] = Follow.objects.filter(user=self.kwargs["pk"]).order_by("-date")
         return context
 
 
-class FollowersDetailView(LoginRequiredMixin, DetailView):
+class FollowersDetailView(LoginRequiredMixin, ListView):
     model = Follow
     template_name = "publicprofile/followers.html"
     context_object_name = "abc"
@@ -117,5 +133,5 @@ class FollowersDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(FollowersDetailView, self).get_context_data(**kwargs)
         context["profile"] = Account.objects.get(id=self.kwargs["pk"])
-        context["followers"] = Follow.objects.filter(followers=self.kwargs["pk"]).order_by("-date")
+        context["followers"] = Follow.objects.filter(following=self.kwargs["pk"]).order_by("-date")
         return context
