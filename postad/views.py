@@ -6,6 +6,8 @@ from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import FormMixin
+from django.db.models import F, Q
+
 
 
 class IndexView(TemplateView):
@@ -109,3 +111,28 @@ class DeletePostAdView(LoginRequiredMixin, DeleteView):
         if self.object.user != request.user:
             return HttpResponseRedirect("/")
         return super(DeletePostAdView, self).get(request, *args, **kwargs)
+
+
+class SearchResultView(ListView):
+    model = PostAD
+    template_name = "postad/search-results.html"
+    context_object_name = "posts"
+
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        category = self.request.GET.get("category")
+        location = self.request.GET.get("location")
+
+        if query != '' and category != '' and location != '':
+            return PostAD.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).filter(category__title__icontains=category).filter(city__icontains=location).order_by("-id").distinct()
+
+        elif query != '' and category != '' and location == '':
+            return PostAD.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).filter(category__title__icontains=category).order_by("-id").distinct()
+            
+        elif query != '' and category == '' and location != '':
+            return PostAD.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).filter(city__icontains=location).order_by("-id").distinct()
+
+        elif query != '':
+            return PostAD.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).order_by("-id").distinct()
+        
+        return PostAD.objects.all().order_by("-id")
