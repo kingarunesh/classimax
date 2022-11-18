@@ -8,7 +8,7 @@
       <!--  -->
       {% for category in categories %}
       <li>
-        <a href="category.html">{{category}} <span>{{category.adpost_count}}</span></a>
+        <a href="{% url 'postad:category' pk=category.id slug=category.slug %}">{{category}} <span>{{category.adpost_count}}</span></a>
       </li>
       {% endfor %}
     </ul>

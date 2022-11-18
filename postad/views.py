@@ -1,5 +1,5 @@
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
-from postad.models import PostAD, Bookmark
+from postad.models import PostAD, Bookmark, Category
 from django.db.models import F, Q
 from postad.forms import PostAdCreationForm, BookmarkForm, UpdatePostAdCreationForm
 from django.urls import reverse_lazy
@@ -142,3 +142,14 @@ class SearchResultView(ListView):
             return PostAD.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).order_by("-id").distinct()
         
         return PostAD.objects.all().order_by("-id")
+
+
+class CategoryPostAdView(ListView):
+    model = PostAD
+    template_name = "filter/categories-list.html"
+    context_object_name = "categories"
+
+    def get_context_data(self, **kwargs):
+        context = super(CategoryPostAdView, self).get_context_data(**kwargs)
+        context["posts"] = PostAD.objects.filter(category__id=self.kwargs["pk"])
+        return context

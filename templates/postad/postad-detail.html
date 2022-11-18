@@ -64,7 +64,11 @@
               <li class="list-inline-item">
                 <i class="fa fa-user-o"></i> By <a href="{% url 'publicprofile:public_profile' pk=post.user.id %}">{{post.user.username|title}}</a>
               </li>
-              <li class="list-inline-item"><i class="fa fa-folder-open-o"></i> Category<a href="category.html">{{post.category.title}}</a></li>
+              <li class="list-inline-item">
+                <i class="fa fa-folder-open-o"></i> Category<a href="{% url 'postad:category' pk=post.category.id slug=post.category.slug %}"
+                  >{{post.category.title}}</a
+                >
+              </li>
               <li class="list-inline-item"><i class="fa fa-location-arrow"></i> Location<a href="category.html">{{post.city}}, {{post.state}}</a></li>
             </ul>
           </div>
