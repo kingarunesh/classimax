@@ -33,7 +33,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'friends.apps.FriendsConfig',
-    'orders.apps.OrdersConfig',
     'publicprofile.apps.PublicprofileConfig',
     'dashboard.apps.DashboardConfig',
     'crispy_forms',

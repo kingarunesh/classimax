@@ -17,18 +17,6 @@ class Category(models.Model):
         return self.title
 
 
-class Tag(models.Model):
-    title = models.CharField(max_length=100)
-    slug = models.SlugField(editable=False)
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
-        super(Tag, self).save(*args, **kwargs)
-    
-    def __str__(self):
-        return self.title
-
-
 class PostAD(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     ad_id = models.UUIDField(default=uuid.uuid4().hex, editable=False)
