@@ -13,6 +13,9 @@ class Category(models.Model):
         self.slug = slugify(self.title)
         super(Category, self).save(*args, **kwarsg)
     
+    def adpost_count(self):
+        return self.postad.all().count()
+    
     def __str__(self):
         return self.title
 

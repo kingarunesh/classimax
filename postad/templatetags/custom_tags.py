@@ -12,3 +12,8 @@ def all_categories():
 @register.simple_tag(name="hit_posts")
 def popular_posts():
     return PostAD.objects.order_by("-hit")[:5]
+
+
+@register.simple_tag(name="adposts")
+def adposts():
+    return PostAD.objects.order_by("-id")[:5]
