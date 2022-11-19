@@ -225,5 +225,15 @@ class FilterResultView(ListView):
             max_price = price.split(",")[1]
             return PostAD.objects.filter(price__gte=min_price, price__lte=max_price)
 
-        
         return PostAD.objects.all().order_by("-id")
+
+
+class CityAdPostListView(ListView):
+    model = PostAD
+    template_name = "filter/cities-adposts-list.html"
+    context_object_name = "test"
+    
+    def get_context_data(self, **kwargs):
+        context = super(CityAdPostListView, self).get_context_data(**kwargs)
+        context["posts"] = PostAD.objects.filter(city__icontains=self.kwargs["city"]).order_by("-id")
+        return context

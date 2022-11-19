@@ -14,4 +14,5 @@ urlpatterns = [
     path("search-results/", SearchResultView.as_view(), name="search_results"),
     path("filter-results/", FilterResultView.as_view(), name="filter_results"),
     path("category/<int:pk>/<slug:slug>/", CategoryPostAdView.as_view(), name="category"),
+    path("adposts/<str:city>/", CityAdPostListView.as_view(), name="city_adposts_list")
 ]

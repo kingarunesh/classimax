@@ -15,16 +15,26 @@
   </div>
 
   <div class="widget category-list">
-    <h4 class="widget-header">Nearby</h4>
+    <h4 class="widget-header">Popular City</h4>
     <ul class="category-list">
-      {% adposts as adposts %}
-      <!--  -->
-      {% for post in adposts %}
       <li>
-        <a href="category.html">{{post.city}} <span>93</span></a>
+        <a href="{% url 'postad:city_adposts_list' city='delhi' %}"> Delhi</a>
       </li>
-      {% endfor %}
-      <li><a href="" style="color: blue; text-decoration: underline">more cities</a></li>
+      <li>
+        <a href="{% url 'postad:city_adposts_list' city='bangalore' %}"> Bangalore</a>
+      </li>
+      <li>
+        <a href="{% url 'postad:city_adposts_list' city='mumbai' %}"> Mumbai</a>
+      </li>
+      <li>
+        <a href="{% url 'postad:city_adposts_list' city='gurugram' %}"> Gurugram</a>
+      </li>
+      <li>
+        <a href="{% url 'postad:city_adposts_list' city='kolkata' %}"> Kolkata</a>
+      </li>
+      <li>
+        <a href="{% url 'postad:city_adposts_list' city='chennai' %}"> Chennai</a>
+      </li>
     </ul>
   </div>
 
