@@ -153,3 +153,77 @@ class CategoryPostAdView(ListView):
         context = super(CategoryPostAdView, self).get_context_data(**kwargs)
         context["posts"] = PostAD.objects.filter(category__id=self.kwargs["pk"])
         return context
+
+
+
+
+class FilterResultView(ListView):
+    model = PostAD
+    template_name = "filter/filter-results.html"
+    context_object_name = "posts"
+
+    def get_queryset(self):
+        short = self.request.GET.get("short")
+        condition = self.request.GET.get("condition")
+        price = self.request.GET.get("price")
+
+        #   if condition, price and short is there
+        if condition and price and short:
+            min_price = price.split(",")[0]
+            max_price = price.split(",")[1]
+
+            if short == "Popularity":
+                return PostAD.objects.filter(condition=condition).filter(price__gte=min_price, price__lte=max_price).order_by("-hits")
+            elif short == "LowestPrice":
+                return PostAD.objects.filter(condition=condition).filter(price__gte=min_price, price__lte=max_price).order_by("price")
+            elif short == "HighestPrice":
+                return PostAD.objects.filter(condition=condition).filter(price__gte=min_price, price__lte=max_price).order_by("-price")
+        #   if condition and price is there
+        elif condition and price:
+            print(price.split(","))
+            min_price = price.split(",")[0]
+            max_price = price.split(",")[1]
+            return PostAD.objects.filter(condition=condition).filter(price__gte=min_price, price__lte=max_price).order_by("-id")
+
+        #   if condition and short is there
+        elif condition and short:
+            if short == "Popularity":
+                return PostAD.objects.filter(condition=condition).order_by("-hits")
+            elif short == "LowestPrice":
+                return PostAD.objects.filter(condition=condition).order_by("price")
+            elif short == "HighestPrice":
+                return PostAD.objects.filter(condition=condition).order_by("-price")
+        
+        #   if price and short is there
+        elif price and short:
+            min_price = price.split(",")[0]
+            max_price = price.split(",")[1]
+
+            if short == "Popularity":
+                return PostAD.objects.filter(price__gte=min_price, price__lte=max_price).order_by("-hits")
+            elif short == "LowestPrice":
+                return PostAD.objects.filter(price__gte=min_price, price__lte=max_price).order_by("price")
+            elif short == "HighestPrice":
+                return PostAD.objects.filter(price__gte=min_price, price__lte=max_price).order_by("-price")
+        
+
+
+        if short == "Popularity":
+            return PostAD.objects.order_by("-hits")
+        elif short == "LowestPrice":
+            return PostAD.objects.order_by("price")
+        elif short == "HighestPrice":
+            return PostAD.objects.order_by("-price")
+        
+
+        if condition:
+            return PostAD.objects.filter(condition=condition).order_by("-id")
+        
+        if price:
+            print(price.split(","))
+            min_price = price.split(",")[0]
+            max_price = price.split(",")[1]
+            return PostAD.objects.filter(price__gte=min_price, price__lte=max_price)
+
+        
+        return PostAD.objects.all().order_by("-id")

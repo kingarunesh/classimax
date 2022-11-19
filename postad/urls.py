@@ -11,6 +11,7 @@ urlpatterns = [
     path("create-postad/", PostAdCreateView.as_view(), name="create_postad"),
     path("update/<int:pk>/<slug:slug>/", UpdatePostAdView.as_view(), name="update_postad"),
     path("delete/<int:pk>/<slug:slug>", DeletePostAdView.as_view(), name="delete_adpost"),
-    path("search-result/", SearchResultView.as_view(), name="search_results"),
-    path("category/<int:pk>/<slug:slug>/", CategoryPostAdView.as_view(), name="category")
+    path("search-results/", SearchResultView.as_view(), name="search_results"),
+    path("filter-results/", FilterResultView.as_view(), name="filter_results"),
+    path("category/<int:pk>/<slug:slug>/", CategoryPostAdView.as_view(), name="category"),
 ]

@@ -28,51 +28,63 @@
     </ul>
   </div>
 
-  <div class="widget filter">
-    <h4 class="widget-header">Show Produts</h4>
-    <select>
-      <option>Popularity</option>
-      <option value="1">Top rated</option>
-      <option value="2">Lowest Price</option>
-      <option value="4">Highest Price</option>
-    </select>
-  </div>
+  <!-- form -->
+  <form action="{% url 'postad:filter_results' %}" method="GET">
+    <div class="widget filter">
+      <h4 class="widget-header">Show Produts</h4>
+      <select name="short">
+        <option value="">Select</option>
+        <option value="Popularity">Popularity</option>
+        <option value="LowestPrice">Lowest Price</option>
+        <option value="HighestPrice">Highest Price</option>
+      </select>
+    </div>
 
-  <div class="widget price-range w-100">
-    <h4 class="widget-header">Price Range</h4>
-    <div class="block">
-      <input class="range-track w-100" type="text" data-slider-min="0" data-slider-max="5000" data-slider-step="5" data-slider-value="[0,5000]" />
-      <div class="d-flex justify-content-between mt-2">
-        <span class="value">$10 - $5000</span>
+    <div class="widget price-range w-100">
+      <h4 class="widget-header">Price Range</h4>
+      <div class="block">
+        <input
+          class="range-track w-100"
+          name="price"
+          type="text"
+          data-slider-min="1"
+          data-slider-max="100000"
+          data-slider-step="5"
+          data-slider-value="[1,100000]"
+        />
+        <div class="d-flex justify-content-between mt-2">
+          <span class="value">₹1 - ₹1,00,000</span>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="widget product-shorting">
-    <h4 class="widget-header">By Condition</h4>
-    <div class="form-check">
-      <label class="form-check-label">
-        <input class="form-check-input" type="checkbox" value="" />
-        Brand New
-      </label>
+    <div class="widget product-shorting">
+      <h4 class="widget-header">By Condition</h4>
+      <!--  -->
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="condition" id="exampleRadios1" value="Almost Like New" />
+        <label class="form-check-label" for="exampleRadios1">Almost Like New</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="condition" id="exampleRadios2" value="Brand New" />
+        <label class="form-check-label" for="exampleRadios2">Brand New</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="condition" id="exampleRadios3" value="Gently Used" />
+        <label class="form-check-label" for="exampleRadios3">Gently Used</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="condition" id="exampleRadios4" value="Heavily Used" />
+        <label class="form-check-label" for="exampleRadios4">Heavily Used</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="condition" id="exampleRadios5" value="Unboxed" />
+        <label class="form-check-label" for="exampleRadios5">Unboxed</label>
+      </div>
+      <!--  -->
     </div>
-    <div class="form-check">
-      <label class="form-check-label">
-        <input class="form-check-input" type="checkbox" value="" />
-        Almost New
-      </label>
-    </div>
-    <div class="form-check">
-      <label class="form-check-label">
-        <input class="form-check-input" type="checkbox" value="" />
-        Gently New
-      </label>
-    </div>
-    <div class="form-check">
-      <label class="form-check-label">
-        <input class="form-check-input" type="checkbox" value="" />
-        Havely New
-      </label>
-    </div>
-  </div>
+
+    <button type="submit" class="btn btn-primary active w-100">Search Now</button>
+  </form>
+  <!-- end form -->
 </div>
