@@ -1,0 +1,59 @@
+{% load humanize %}
+<!--  -->
+
+<!-- if post not exists -->
+{% if posts %}
+
+<!--  -->
+{% for post in posts %}
+<div class="col-lg-4 col-md-6">
+  <div class="product-item bg-light">
+    <div class="card">
+      <div class="thumb-content">
+        <!-- <div class="price">$200</div> -->
+        <a href="{% url 'postad:postad_detail' pk=post.id slug=post.slug %}">
+          <img class="card-img-top img-fluid" src="{{post.image1.url}}" style="width: 100%; height: 275px" alt="Card image cap" />
+        </a>
+      </div>
+      <div class="card-body">
+        <h4 class="card-title"><a href="{% url 'postad:postad_detail' pk=post.id slug=post.slug %}">{{post.title}}</a></h4>
+        <ul class="list-inline product-meta">
+          <li class="list-inline-item">
+            <a href="{% url 'postad:category' pk=post.category.id slug=post.category.slug %}">
+              <i class="fa fa-folder-open-o"></i>Category - <span style="color: gray; font-weight: bold">{{post.category.title}}</span>
+            </a>
+          </li>
+          <br />
+          <li class="list-inline-item">
+            <a href="#">
+              <i class="fa fa-calendar"></i>Publish Date -
+              <span style="color: gray; font-weight: bold">{{post.publish_date|date:"d-M-o"}}</span>
+            </a>
+          </li>
+          <br />
+          <li class="list-inline-item">
+            <a href="#"> <i class="fa fa-eye" aria-hidden="true"></i>Views - <span style="color: gray; font-weight: bold">{{post.hits}}</span> </a>
+          </li>
+          <br />
+          <li class="list-inline-item">
+            <a href="#">
+              <i class="fa fa-map-marker" aria-hidden="true"></i>Location -
+              <span style="color: gray; font-weight: bold">{{post.city}}, {{post.state}}</span>
+            </a>
+          </li>
+        </ul>
+        <div class="product-ratings" style="color: rgb(6, 55, 120); font-weight: bold">Price : ₹ {{post.price|intcomma}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<!--  -->
+
+{% else %}
+
+<h1>SORRY, no results found</h1>
+
+<!--  -->
+{% endif %}

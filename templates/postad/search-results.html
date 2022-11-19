@@ -50,78 +50,41 @@
     <div class="row">
       <div class="col-md-12">
         <div class="search-result bg-gray">
-          <h2>Results For "Electronics"</h2>
-          <p>123 Results on 12 December, 2017</p>
+          <!--  -->
+          {% if request.GET.q != "" and request.GET.category != "" and request.GET.location != "" %}
+          <h5>
+            Showing of results search by "{{request.GET.q}}", condition is "{{request.GET.category}}" and location is "{{request.GET.location}}" Ad
+            posts
+          </h5>
+
+          {% elif request.GET.q != "" and request.GET.category %}
+          <h5>Showing of results search by "{{request.GET.q}}", condition is "{{request.GET.category}}" Ad posts</h5>
+
+          {% elif request.GET.q != "" and request.GET.location != "" %}
+          <h5>Showing of results search by "{{request.GET.q}}" and location is "{{request.GET.location}}" Ad posts</h5>
+
+          {% elif request.GET.category != "" and request.GET.location != "" %}
+          <h5>Showing of results condition by "{{request.GET.category}}" and location is "{{request.GET.location}}" Ad posts</h5>
+          {% else %}
+          <!--  -->
+          {% if request.GET.q %}
+          <h5>Showing of results For "{{request.GET.q}}" Ad posts</h5>
+          {% elif request.GET.category %}
+          <h5>Showing of results For "{{request.GET.category}}"</h5>
+          {% elif request.GET.location %}
+          <h5>Showing of results For "{{request.GET.location}}"</h5>
+          {% endif %}
+          <!--  -->
+          {% endif %}
         </div>
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-3 col-md-4">{% include 'includes/left-filter-sidebar.html' %}</div>
-      <div class="col-lg-9 col-md-8">
-        <div class="category-search-filter">
-          <div class="row">
-            <div class="col-md-6 text-center text-md-left">
-              <strong>Short</strong>
-              <select>
-                <option>Most Recent</option>
-                <option value="1">Most Popular</option>
-                <option value="2">Lowest Price</option>
-                <option value="4">Highest Price</option>
-              </select>
-            </div>
-            <div class="col-md-6 text-center text-md-right mt-2 mt-md-0">
-              <div class="view">
-                <strong>Views</strong>
-                <ul class="list-inline view-switcher">
-                  <li class="list-inline-item">
-                    <a href="#!" onclick="event.preventDefault();" class="text-info"><i class="fa fa-th-large"></i></a>
-                  </li>
-                  <li class="list-inline-item">
-                    <a href="ad-list-view.html"><i class="fa fa-reorder"></i></a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-
+      <div class="col-lg-3 col-md-3">{% include 'includes/left-filter-sidebar.html' %}</div>
+      <div class="col-lg-9 col-md-9">
         <!-- postad -->
         <div class="product-grid-list">
-          <div class="row mt-30">
-            {% for post in posts %}
-            <div class="col-lg-4 col-md-6">
-              <div class="product-item bg-light">
-                <div class="card">
-                  <div class="thumb-content">
-                    <div class="price">$200</div>
-                    <a href="{% url 'postad:postad_detail' pk=post.id slug=post.slug %}">
-                      <img class="card-img-top img-fluid" src="{{post.image1.url}}" style="width: 100%; height: 275px" alt="Card image cap" />
-                    </a>
-                  </div>
-                  <div class="card-body">
-                    <h4 class="card-title"><a href="{% url 'postad:postad_detail' pk=post.id slug=post.slug %}">{{post.title}}</a></h4>
-                    <ul class="list-inline product-meta">
-                      <li class="list-inline-item">
-                        <a href="{% url 'postad:category' pk=post.category.id slug=post.category.slug %}">
-                          <i class="fa fa-folder-open-o"></i>Category - <span style="color: gray; font-weight: bold">{{post.category.title}}</span>
-                        </a>
-                      </li>
-                      <br />
-                      <li class="list-inline-item">
-                        <a href="category.html"><i class="fa fa-calendar"></i>{{post.publish_date|date:"d-M-o"}}</a>
-                      </li>
-                      <br />
-                      <li class="list-inline-item">
-                        <a href="category.html"><i class="fa fa-map-marker" aria-hidden="true"></i>{{post.city}}, {{post.state}}</a>
-                      </li>
-                    </ul>
-                    <div class="product-ratings" style="color: rgb(6, 55, 120); font-weight: bold">Price : ₹ {{post.price}}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {% endfor %}
-          </div>
+          <div class="row">{% include 'includes/adposts-loop.html' %}</div>
         </div>
 
         <!-- pagination -->

@@ -123,7 +123,7 @@ class SearchResultView(ListView):
     model = PostAD
     template_name = "postad/search-results.html"
     context_object_name = "posts"
-    paginate_by = 6
+    paginate_by = 9
 
     def get_queryset(self):
         query = self.request.GET.get("q")
@@ -159,6 +159,9 @@ class CategoryPostAdView(ListView):
     def get_context_data(self, **kwargs):
         context = super(CategoryPostAdView, self).get_context_data(**kwargs)
         context["posts"] = PostAD.objects.filter(category__id=self.kwargs["pk"])
+        context["total_posts"] = PostAD.objects.filter(category__id=self.kwargs["pk"]).count()
+        # context["category_title"] = PostAD.objects.filter(category__id=self.kwargs["pk"])[0]
+        context["category_name"] = Category.objects.get(pk=self.kwargs["pk"])
         return context
 
 
@@ -168,7 +171,7 @@ class FilterResultView(ListView):
     model = PostAD
     template_name = "filter/filter-results.html"
     context_object_name = "posts"
-    paginate_by = 1
+    paginate_by = 9
 
     def get_queryset(self):
         short = self.request.GET.get("short")
@@ -243,5 +246,7 @@ class CityAdPostListView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super(CityAdPostListView, self).get_context_data(**kwargs)
-        context["posts"] = PostAD.objects.filter(city__icontains=self.kwargs["city"]).order_by("-id")
+        context["posts"] = PostAD.objects.filter(city__icontains=self.kwargs["city"]).order_by("-id").distinct()
+        context["total_posts"] = PostAD.objects.filter(city__icontains=self.kwargs["city"]).order_by("-id").distinct().count()
+        context["city_name"] = self.kwargs["city"]
         return context
