@@ -18,9 +18,15 @@ class PostAdView(ListView):
     model = PostAD
     template_name = "postad/postsad.html"
     context_object_name = "posts"
+    paginate_by = 9
 
     def get_queryset(self):
         return PostAD.objects.order_by("-id")
+    
+    def get_context_data(self, **kwargs):
+        context = super(PostAdView, self).get_context_data(**kwargs)
+        context["total_adpost"] = PostAD.objects.count()
+        return context
 
 
 class PostAdDetailView(LoginRequiredMixin, DetailView, FormMixin):
@@ -117,6 +123,7 @@ class SearchResultView(ListView):
     model = PostAD
     template_name = "postad/search-results.html"
     context_object_name = "posts"
+    paginate_by = 6
 
     def get_queryset(self):
         query = self.request.GET.get("q")
@@ -161,6 +168,7 @@ class FilterResultView(ListView):
     model = PostAD
     template_name = "filter/filter-results.html"
     context_object_name = "posts"
+    paginate_by = 1
 
     def get_queryset(self):
         short = self.request.GET.get("short")
