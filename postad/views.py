@@ -38,6 +38,8 @@ class PostAdDetailView(LoginRequiredMixin, DetailView, FormMixin):
     def get_context_data(self, **kwargs):
         context = super(PostAdDetailView, self).get_context_data(**kwargs)
         context["bookmark"] = Bookmark.objects.filter(post=self.object.id, user=self.request.user)
+        # context["similar_ad"] = PostAD.objects.filter(Q(category=self.object.category) | Q(condition=self.object.condition))
+        context["similar_ad"] = PostAD.objects.filter(category=self.object.category)
         return context
 
     def get(self, request, *args, **kwargs):
