@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+<!--  -->
+
+{% load crispy_forms_tags %}
+
+<!--  -->
+
+{% block content %}
+
+<section class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="contact-us-content p-4">
+          <h5>Report Us</h5>
+          <h2 class="pt-3" style="font-size: 2rem">Something wrong with the Ad? Let us know</h2>
+          <h5 class="mt-5" style="color: gray; text-decoration: underline">Post Details <i class="fa fa-arrow-down"></i></h5>
+          <p class="pt-2">{{post.title}}</p>
+          <a class="btn btn-info mt-2" href="{% url 'postad:postad_detail' pk=post.id slug=post.slug %}"
+            ><i class="fa fa-arrow-left"></i> Back to Post</a
+          >
+        </div>
+      </div>
+      <div class="col-md-6">
+        <!-- <form method="POST">
+          <fieldset class="p-4">
+            <select name="" id="" class="form-control w-100">
+              <option value="1">Select Category</option>
+              <option value="1">Laptop</option>
+              <option value="1">iPhone</option>
+              <option value="1">Monitor</option>
+              <option value="1">I need</option>
+            </select>
+            <textarea name="message" id="" placeholder="Message *" class="border w-100 p-3 mt-3 mt-lg-4"></textarea>
+            <div class="btn-grounp">
+              <button type="submit" class="btn btn-primary mt-2 float-right">SUBMIT</button>
+            </div>
+          </fieldset>
+        </form> -->
+        {% crispy form %}
+      </div>
+    </div>
+  </div>
+</section>
+<!-- contact us end -->
+
+{% endblock %}

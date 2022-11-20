@@ -2,7 +2,7 @@ from postad.models import *
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Field, Layout
-from postad.models import Bookmark
+from postad.models import Bookmark, ReportAdPost
 
 
 class PostAdCreationForm(forms.ModelForm):
@@ -112,3 +112,23 @@ class BookmarkForm(forms.ModelForm):
     class Meta:
         model = Bookmark
         fields = "__all__"
+
+
+class AdReportForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(AdReportForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = "post"
+        self.helper.layout = Layout(
+            Field("subject", css_class="form-control w-100"),
+            Field("comment", css_class="border w-100 p-3 mt-3 mt-lg-4"),
+        )
+
+        self.helper.add_input(Submit("submit", "Submit", css_class="btn btn-primary mt-2 float-right"))
+    
+    class Meta:
+        model = ReportAdPost
+        fields = [
+            "subject",
+            "comment",
+        ]

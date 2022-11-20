@@ -1,7 +1,7 @@
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
-from postad.models import PostAD, Bookmark, Category
+from postad.models import PostAD, Bookmark, Category, ReportAdPost
 from django.db.models import F, Q
-from postad.forms import PostAdCreationForm, BookmarkForm, UpdatePostAdCreationForm
+from postad.forms import PostAdCreationForm, BookmarkForm, UpdatePostAdCreationForm, AdReportForm
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -250,3 +250,21 @@ class CityAdPostListView(ListView):
         context["total_posts"] = PostAD.objects.filter(city__icontains=self.kwargs["city"]).order_by("-id").distinct().count()
         context["city_name"] = self.kwargs["city"]
         return context
+
+
+class ReportAdCreateView(LoginRequiredMixin, CreateView):
+    model = ReportAdPost
+    template_name = "postad/report.html"
+    form_class = AdReportForm
+    success_url = "/"
+    
+    def get_context_data(self, **kwargs):
+        context = super(ReportAdCreateView, self).get_context_data(**kwargs)
+        context["post"] = PostAD.objects.get(pk=self.kwargs["pk"])
+        return context
+    
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.post = PostAD.objects.get(pk=self.kwargs["pk"])
+        form.save()
+        return super(ReportAdCreateView, self).form_valid(form)

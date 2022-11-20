@@ -65,11 +65,15 @@
                 <i class="fa fa-user-o"></i> By <a href="{% url 'publicprofile:public_profile' pk=post.user.id %}">{{post.user.username|title}}</a>
               </li>
               <li class="list-inline-item">
-                <i class="fa fa-folder-open-o"></i> Category<a href="{% url 'postad:category' pk=post.category.id slug=post.category.slug %}"
-                  >{{post.category.title}}</a
+                <i class="fa fa-folder-open-o"></i> Category<a href="{% url 'postad:category' pk=post.category.id slug=post.category.slug %}">
+                  {{post.category.title}}
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <i class="fa fa-location-arrow"></i> Location<a href="{% url 'postad:city_adposts_list' city=post.city %}"
+                  >{{post.city}}, {{post.state}}</a
                 >
               </li>
-              <li class="list-inline-item"><i class="fa fa-location-arrow"></i> Location<a href="category.html">{{post.city}}, {{post.state}}</a></li>
             </ul>
           </div>
 
@@ -194,71 +198,62 @@
               </div>
             </div>
 
-            <!-- review -->
+            <!-- bookamark, update and delete -->
             <div class="tab-content mt-5">
-              <h3 class="tab-title">Product Review</h3>
-              <div class="product-review">
-                <div class="media">
-                  <!-- Avater -->
-                  <img src="images/user/user-thumb.jpg" alt="avater" />
-                  <div class="media-body">
-                    <!-- Ratings -->
-                    <div class="ratings">
-                      <ul class="list-inline">
-                        <li class="list-inline-item">
-                          <i class="fa fa-star"></i>
-                        </li>
-                        <li class="list-inline-item">
-                          <i class="fa fa-star"></i>
-                        </li>
-                        <li class="list-inline-item">
-                          <i class="fa fa-star"></i>
-                        </li>
-                        <li class="list-inline-item">
-                          <i class="fa fa-star"></i>
-                        </li>
-                        <li class="list-inline-item">
-                          <i class="fa fa-star"></i>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="name">
-                      <h5>Jessica Brown</h5>
-                    </div>
-                    <div class="date">
-                      <p>Mar 20, 2018</p>
-                    </div>
-                    <div class="review-comment">
-                      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremqe laudant tota rem ape riamipsa eaque.</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="review-submission">
-                  <h3 class="tab-title">Submit your review</h3>
-                  <!-- Rate -->
-                  <div class="rate">
-                    <div class="starrr"></div>
-                  </div>
-                  <div class="review-submit">
-                    <form action="#" method="POST" class="row">
-                      <div class="col-lg-6 mb-3">
-                        <input type="text" name="name" id="name" class="form-control" placeholder="Name" required />
-                      </div>
-                      <div class="col-lg-6 mb-3">
-                        <input type="email" name="email" id="email" class="form-control" placeholder="Email" required />
-                      </div>
-                      <div class="col-12 mb-3">
-                        <textarea name="review" id="review" rows="6" class="form-control" placeholder="Message" required></textarea>
-                      </div>
-                      <div class="col-12">
-                        <button type="submit" class="btn btn-main">Sumbit</button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
+              <!-- date -->
+              {% comment %}
+              <div style="display: inline-block; margin-right: 2rem"><strong>Publish Date : </strong> {{post.publish_date|date:"d M o"}}</div>
+              {% endcomment %}
+              <!-- end date -->
+
+              <!-- bookmark -->
+              <div style="display: inline-block">
+                <form action="" method="POST">
+                  {% csrf_token %}
+                  <!--  -->
+                  {% if not bookmark %}
+                  <button type="submit" class="btn btn-light" style="font-weight: bold; font-size: 1.2rem">
+                    <i class="fa fa-bookmark-o"></i> Bookmark
+                  </button>
+                  {% else %}
+                  <button type="submit" class="btn btn-light" style="font-weight: bold; font-size: 1.2rem">
+                    <i class="fa fa-bookmark"></i> Bookmarked
+                  </button>
+                  {% endif %}
+                </form>
               </div>
+              <!-- end bookmark -->
+
+              <!-- update and delete -->
+              <div>
+                {% if request.user == post.user %}
+                <a
+                  href="{% url 'postad:update_postad' pk=post.id slug=post.slug %}"
+                  class="btn btn-contact d-inline-block btn-info px-lg-3 my-1 px-md-3"
+                >
+                  Update Ad Post
+                </a>
+                <a
+                  href="{% url 'postad:delete_adpost' pk=post.id slug=post.slug %}"
+                  class="btn btn-contact d-inline-block btn-danger px-lg-3 my-1 px-md-3"
+                >
+                  Delete Ad Post
+                </a>
+                {% endif %}
+              </div>
+              <!-- update and delete -->
             </div>
-            <!-- end review -->
+            <!-- end bookamark, update and delete -->
+
+            <!-- report -->
+            <div class="tab-content mt-3 mb-5">
+              Something wrong with the Ad? Let us know
+              <i class="fa fa-long-arrow-right ml-5" style="color: gray"></i>
+              <a href="{% url 'postad:report' pk=post.id %}" class="btn btn-outline-danger ml-5 p-2"
+                ><i class="fa fa-flag mr-1" style="color: red"></i>Report this Ad</a
+              >
+            </div>
+            <!-- end report -->
           </div>
           <!-- end ad details -->
         </div>
@@ -274,7 +269,7 @@
           <!-- User Profile widget -->
           <div class="widget user text-center">
             {% if post.user.image %}
-            <img class="rounded-circle img-fluid mb-5" src="{{post.user.image.url}}" style="width: 500px; height: 250px" alt="" />
+            <img class="rounded-circle img-fluid mb-3" src="{{post.user.image.url}}" style="width: 100%; height: 300px" alt="" />
             {% endif %}
             <h4><a href="{% url 'publicprofile:public_profile' pk=post.user.id %}">{{post.user.first_name}} {{post.user.last_name}}</a></h4>
             <p class="member-time">Member Since - {{post.user.date_joined|date:'d M o'}}</p>
@@ -283,14 +278,14 @@
               <li class="list-inline-item">
                 <a
                   href="{% url 'publicprofile:contact_ad_user' pk=post.user.id %}"
-                  class="btn btn-contact d-inline-block btn-primary px-lg-5 my-1 px-md-3"
+                  class="btn btn-contact d-inline-block btn-primary px-lg-3 my-1 px-md-3"
                 >
                   Contact Me
                 </a>
               </li>
               <li class="list-inline-item">
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Make a Call</button>
+                <button type="button" class="btn btn-primary px-lg-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Make a Call</button>
 
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -300,7 +295,7 @@
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Contact Info</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
-                      <div class="modal-body">
+                      <div class="modal-body h6">
                         <div><strong>Contact Number : </strong>{{post.user.phone}}</div>
                         <div><strong>Email Address : </strong>{{post.user.email}}</div>
                       </div>
@@ -316,36 +311,18 @@
 
           <!-- Safety tips widget -->
           <div class="widget disclaimer">
-            <h5 class="widget-header">Safety Tips</h5>
+            <h2 class="widget-header">Buyer Guidelines</h2>
             <ul>
-              <li>Meet seller at a public place</li>
-              <li>Check the item before you buy</li>
-              <li>Pay only after collecting the item</li>
-              <li>Pay only after collecting the item</li>
-              {% if request.user == post.user %}
-              <li><a href="{% url 'postad:update_postad' pk=post.id slug=post.slug %}">Update Ad Post</a></li>
-              <li><a href="{% url 'postad:delete_adpost' pk=post.id slug=post.slug %}">Delete Ad Post</a></li>
-              {% endif %}
+              <li><i class="fa fa-check fa-lg mr-2" style="color: green"></i> Be careful when paying offline</li>
               <br />
-              <!-- bookmark -->
-              <li style="font-size: 1.5rem">
-                <form action="" method="POST">
-                  {% csrf_token %}
-                  <!--  -->
-                  <!--  -->
-                  {% if not bookmark %}
-                  <button type="submit" class="btn btn-light" style="font-weight: bold; font-size: 1.2rem">
-                    <i class="fa fa-bookmark-o"></i> Bookmark
-                  </button>
-                  {% else %}
-                  <a href="#"></a>
-                  <button type="submit" class="btn btn-light" style="font-weight: bold; font-size: 1.2rem">
-                    <i class="fa fa-bookmark" aria-hidden="true"></i> Bookmarked
-                  </button>
-                  {% endif %}
-                </form>
+              <li><i class="fa fa-check fa-lg mr-2" style="color: green"></i> Beware of ads with unrealistic prices, lookalikes or clone products</li>
+              <br />
+              <li><i class="fa fa-check fa-lg mr-2" style="color: green"></i> Chat and ask questions to be clear on product details</li>
+              <br />
+              <li>
+                <i class="fa fa-check fa-lg mr-2" style="color: green"></i> Do not deposit/transfer money to bank or any third party payment gateways
+                without verifying the credentials
               </li>
-              <!-- end bookmark -->
             </ul>
           </div>
           <!-- Coupon Widget -->
@@ -353,7 +330,7 @@
             <!-- Coupon description -->
             <p>Have a great product to post ? Share it with your fellow users.</p>
             <!-- Submii button -->
-            <a href="single.html" class="btn btn-transparent-white">Submit Listing</a>
+            <a href="{% url 'postad:create_postad' %}" class="btn btn-transparent-white">Submit Listing</a>
           </div>
         </div>
       </div>
