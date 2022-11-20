@@ -109,6 +109,7 @@ class UsersListView(LoginRequiredMixin, ListView):
     template_name = "publicprofile/user-list.html"
     model = Account
     context_object_name = "users"
+    paginate_by = 9
 
     def get_queryset(self):
         return Account.objects.all().order_by("-id")

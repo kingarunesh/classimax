@@ -14,6 +14,7 @@
       </div>
     </div>
     <div class="row">
+      <!-- left sidebar -->
       <div class="col-lg-3 col-md-4">
         <div class="category-sidebar">
           <div class="widget category-list">
@@ -114,6 +115,7 @@
           </div>
         </div>
       </div>
+      <!-- end left sidebar -->
       <div class="col-lg-9 col-md-8">
         <div class="category-search-filter">
           <div class="row">
@@ -143,14 +145,13 @@
         </div>
 
         <!-- users -->
-
         {% for user in users %}
         <div class="ad-listing-list mt-20">
           <div class="row p-lg-3 p-sm-5 p-4">
             <div class="col-lg-4 align-self-center">
               <a href="single.html">
                 {% if user.image %}
-                <img src="{{user.image.url}}" class="img-fluid" alt="" style="width: 100%; height: 200px" />
+                <img src="{{user.image.url}}" class="img-fluid" alt="" style="width: 100%; height: 200px; border-radius: 1rem" />
                 {% endif %}
               </a>
             </div>
@@ -158,29 +159,33 @@
               <div class="row">
                 <div class="col-lg-6 col-md-10">
                   <div class="ad-listing-content">
-                    <div>
-                      <a href="single.html" class="font-weight-bold">{{user.first_name}} {{user.last_name}}</a>
-                    </div>
+                    <h4>
+                      <a href="single.html" class="font-weight-bold">
+                        <span style="color: gray">Name : </span>{{user.first_name}} {{user.last_name}}
+                      </a>
+                    </h4>
                     <ul class="list-inline mt-2 mb-3">
-                      <li class="list-inline-item">
-                        <a href="category.html"> <i class="fa fa-folder-open-o"></i> Electronics</a>
-                      </li>
-                      <li class="list-inline-item">
-                        <a href="category.htm"><i class="fa fa-calendar"></i>{{user.date_joined|date:'d M o'}}</a>
-                      </li>
+                      <li class="list-inline-item mb-1">USERNAME : <strong style="font-size: 1rem">{{user.username|title}}</strong></li>
+                      <br />
+                      <li class="list-inline-item mb-1">EMAIL : <strong style="font-size: 1rem">{{user.email}}</strong></li>
+                      <br />
+                      <li class="list-inline-item mb-1">PHONE : <strong style="font-size: 1rem">{{user.phone}}</strong></li>
+                      <br />
+                      <li class="list-inline-item mb-1">Total Ads : <strong style="font-size: 1rem">7</strong></li>
+                      <br />
+                      <li class="list-inline-item mb-1">Total Sold Ads : <strong style="font-size: 1rem">5</strong></li>
+                      <br />
+                      <li class="list-inline-item mb-1">Following : <strong style="font-size: 1rem">12</strong></li>
+                      <br />
+                      <li class="list-inline-item mb-1">Followers : <strong style="font-size: 1rem">65</strong></li>
                     </ul>
-                    <p class="pr-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, aliquam!</p>
                   </div>
                 </div>
                 <div class="col-lg-6 align-self-center">
                   <div class="product-ratings float-lg-right pb-3">
-                    <ul class="list-inline">
-                      <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                      <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                      <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                      <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                      <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                    </ul>
+                    <a href="{% url 'publicprofile:public_profile' pk=user.id %}" class="btn btn-outline-info p-2"
+                      >More Info <i class="fa fa-chevron-right" aria-hidden="true"></i
+                    ></a>
                   </div>
                 </div>
               </div>
@@ -188,31 +193,11 @@
           </div>
         </div>
         {% endfor %}
-
         <!-- end users  -->
 
+        <div class="mb-5"></div>
         <!-- pagination -->
-        <div class="pagination justify-content-center py-4">
-          <nav aria-label="Page navigation example">
-            <ul class="pagination">
-              <li class="page-item">
-                <a class="page-link" href="ad-list-view.html" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                  <span class="sr-only">Previous</span>
-                </a>
-              </li>
-              <li class="page-item"><a class="page-link" href="ad-list-view.html">1</a></li>
-              <li class="page-item active"><a class="page-link" href="ad-list-view.html">2</a></li>
-              <li class="page-item"><a class="page-link" href="ad-list-view.html">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="ad-list-view.html" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                  <span class="sr-only">Next</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
+        {% include "includes/pagination.html" %}
         <!-- pagination -->
       </div>
     </div>
