@@ -45,6 +45,7 @@ class PostAdDetailView(LoginRequiredMixin, DetailView, FormMixin):
 
     def get(self, request, *args, **kwargs):
         self.hits = PostAD.objects.filter(id=self.kwargs["pk"]).update(hits=F("hits")+1)
+        RecentView.objects.create(user=self.request.user, post=PostAD.objects.get(id=self.kwargs["pk"]))
         return super(PostAdDetailView, self).get(request, *args, **kwargs)
     
     def form_valid(self, form):
