@@ -1,5 +1,5 @@
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
-from postad.models import PostAD, Bookmark, Category, ReportAdPost
+from postad.models import PostAD, Bookmark, Category, ReportAdPost, RecentView
 from django.db.models import F, Q
 from postad.forms import PostAdCreationForm, BookmarkForm, UpdatePostAdCreationForm, AdReportForm
 from django.urls import reverse_lazy
@@ -40,6 +40,7 @@ class PostAdDetailView(LoginRequiredMixin, DetailView, FormMixin):
         context["bookmark"] = Bookmark.objects.filter(post=self.object.id, user=self.request.user)
         # context["similar_ad"] = PostAD.objects.filter(Q(category=self.object.category) | Q(condition=self.object.condition))
         context["similar_ad"] = PostAD.objects.filter(category=self.object.category)
+        context["recent_visit"] = RecentView.objects.filter(user=self.request.user).order_by("-visit_date")
         return context
 
     def get(self, request, *args, **kwargs):
