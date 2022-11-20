@@ -278,3 +278,18 @@ class ReportAdCreateView(LoginRequiredMixin, CreateView):
         form.instance.post = PostAD.objects.get(pk=self.kwargs["pk"])
         form.save()
         return super(ReportAdCreateView, self).form_valid(form)
+
+
+class RecentVisitAdPostView(LoginRequiredMixin, ListView):
+    model = RecentView
+    template_name = "postad/recent-visit-ads.html"
+    context_object_name = "posts"
+    paginate_by = 9
+
+    def get_queryset(self):
+        return RecentView.objects.filter(user=self.request.user).order_by("-visit_date")
+    
+    def get_context_data(self, **kwargs):
+        context = super(RecentVisitAdPostView, self).get_context_data(**kwargs)
+        context["total_adpost"] = RecentView.objects.filter(user=self.request.user).count()
+        return context
