@@ -40,12 +40,18 @@ class PostAdDetailView(LoginRequiredMixin, DetailView, FormMixin):
         context["bookmark"] = Bookmark.objects.filter(post=self.object.id, user=self.request.user)
         # context["similar_ad"] = PostAD.objects.filter(Q(category=self.object.category) | Q(condition=self.object.condition))
         context["similar_ad"] = PostAD.objects.filter(category=self.object.category)
-        context["recent_visit"] = RecentView.objects.filter(user=self.request.user).order_by("-visit_date")
+        context["recent_visit"] = RecentView.objects.filter(user=self.request.user).order_by("-visit_date")[:4]
         return context
 
     def get(self, request, *args, **kwargs):
         self.hits = PostAD.objects.filter(id=self.kwargs["pk"]).update(hits=F("hits")+1)
+        old_recent_ad_post = RecentView.objects.filter(user=self.request.user, post=PostAD.objects.get(id=self.kwargs["pk"]))
+
+        if old_recent_ad_post:
+            old_recent_ad_post.delete()
+        
         RecentView.objects.create(user=self.request.user, post=PostAD.objects.get(id=self.kwargs["pk"]))
+
         return super(PostAdDetailView, self).get(request, *args, **kwargs)
     
     def form_valid(self, form):

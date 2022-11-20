@@ -346,7 +346,7 @@
     <div class="widget category-list">
       <div style="display: flex; justify-content: space-between; align-items: baseline" class="widget-header">
         <h4 style="font-size: 1.2rem; padding: 1rem 0; font-weight: bold">Recently Viewed Ads</h4>
-        <a href="" class="btn btn-contact d-inline-block btn-primary px-lg-3 px-md-3">View All</a>
+        <a href="#" class="btn btn-contact d-inline-block btn-primary px-lg-3 px-md-3">View All</a>
       </div>
       <div class="product-grid-list">
         <div class="row">
@@ -361,7 +361,7 @@
                   </a>
                 </div>
                 <div class="card-body">
-                  <h4 class="card-title"><a href="{% url 'postad:postad_detail' pk=post.post.id slug=post.post.slug %}">{{post.title}}</a></h4>
+                  <h4 class="card-title"><a href="{% url 'postad:postad_detail' pk=post.post.id slug=post.post.slug %}">{{post.post.title}}</a></h4>
                   <ul class="list-inline product-meta">
                     <li class="list-inline-item">
                       <a href="{% url 'postad:category' pk=post.post.category.id slug=post.post.category.slug %}">
@@ -374,6 +374,13 @@
                       <a href="#">
                         <i class="fa fa-map-marker" aria-hidden="true"></i>Location -
                         <span style="color: gray; font-weight: bold">{{post.post.city}}, {{post.post.state}}</span>
+                      </a>
+                    </li>
+                    <br />
+                    <li class="list-inline-item">
+                      <a href="#">
+                        <i class="fa fa-calendar"></i> Visit Date -
+                        <span style="color: gray; font-weight: bold">{{post.visit_date}}</span>
                       </a>
                     </li>
                   </ul>
