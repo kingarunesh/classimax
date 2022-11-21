@@ -4,7 +4,7 @@ from accounts.models import Account
 
 
 class Follow(models.Model):
-    user = models.ForeignKey(Account, on_delete=models.CASCADE, related_name="user", null=True)
+    user = models.ForeignKey(Account, on_delete=models.CASCADE, null=True)
     following = models.ForeignKey(Account, on_delete=models.CASCADE, related_name="following", null=True)
     date = models.DateTimeField(auto_now_add=True)
 
