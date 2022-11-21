@@ -3,6 +3,7 @@ from django.conf import settings
 from django.template.defaultfilters import slugify
 import uuid
 from PIL import Image
+from ckeditor.fields import RichTextField
 
 
 class Category(models.Model):
@@ -24,7 +25,7 @@ class PostAD(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     ad_id = models.UUIDField(default=uuid.uuid4().hex, editable=False)
     title = models.CharField(max_length=200)
-    description = models.TextField()
+    description = RichTextField(blank=True,null=True)
     image1 = models.ImageField(upload_to=f"postad/")
     image2 = models.ImageField(upload_to=f"postad/", null=True, blank=True)
     image3 = models.ImageField(upload_to=f"postad/", null=True, blank=True)
