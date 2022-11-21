@@ -3,6 +3,17 @@
 
 {% block content %}
 
+<section class="page-title">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 offset-md-2 text-center">
+        <!-- Title text -->
+        <h3>Ads</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="dashboard section">
   <!-- Container Start -->
   <!-- <div class="container"> -->
@@ -13,80 +24,78 @@
       <div class="col-lg-9">
         <!-- Recently Favorited -->
         <div class="widget dashboard-container my-adslist">
-          <h2 class="mb-5">Ad Posts ({{total_adpost}})</h2>
-          <table class="table table-responsive product-dashboard-table">
-            <thead>
-              <tr>
-                <th>Image</th>
-                <th>Product Title</th>
-                <th class="text-center">Category</th>
-                <th class="text-center">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for post in adposts %}
-              <tr>
-                <td class="product-thumb">
-                  <img width="80px" height="auto" src="{{post.image1.url}}" alt="image description" />
-                </td>
-                <td class="product-details">
-                  <h3 class="title">{{post.title}}</h3>
-                  <span class="add-id"><strong>Ad ID:</strong> ng3D5hAMHPajQrM</span>
-                  <span><strong>Posted on: </strong><time>{{post.publish_date}}</time> </span>
-                  {% if not post.sold %}
-                  <span class="status active"><strong>Status</strong>Active</span>
-                  {% else %}
-                  <span class="status" style="color: red"><strong>Status</strong>Sold</span>
-                  {% endif %}
-                  <span class="location"><strong>Location</strong>{{post.city}}, {{post.state}}</span>
-                </td>
-                <td class="product-category"><span class="categories">{{post.category.title}}</span></td>
-                <td class="action" data-title="Action">
-                  <div class="">
-                    <ul class="list-inline justify-content-center">
-                      <li class="list-inline-item">
-                        <a
-                          data-toggle="tooltip"
-                          data-placement="top"
-                          title="View"
-                          class="view"
-                          href="{% url 'postad:postad_detail' pk=post.id slug=post.slug %}"
-                        >
-                          <i class="fa fa-eye"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
+          <h2 class="mb-5">({{total_adpost}}) Ads belongs to "{{profile.first_name}} {{profile.last_name}}"</h2>
 
-        <!-- pagination -->
-        <div class="pagination justify-content-center">
-          <nav aria-label="Page navigation example">
-            <ul class="pagination">
-              <li class="page-item">
-                <a class="page-link" href="dashboard-my-ads.html" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                  <span class="sr-only">Previous</span>
-                </a>
-              </li>
-              <li class="page-item"><a class="page-link" href="dashboard-my-ads.html">1</a></li>
-              <li class="page-item active"><a class="page-link" href="dashboard-my-ads.html">2</a></li>
-              <li class="page-item"><a class="page-link" href="dashboard-my-ads.html">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="dashboard-my-ads.html" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                  <span class="sr-only">Next</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
+          <!-- TABLE -->
+          {% if adposts %}
+          <div class="table-responsive">
+            <table class="table product-dashboard-table">
+              <thead>
+                <tr>
+                  <th>IMAGE</th>
+                  <th>TITLE</th>
+                  <th>CATEGORY</th>
+                  <th>STATUS</th>
+                  <th>VISIT</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for post in adposts %}
+                <tr>
+                  <!-- image -->
+                  <td class="product-thumb p-1 w-20" style="min-width: 150px">
+                    <img src="{{post.image1.url}}" alt="image description" width="100px" height="100px" style="border-radius: 10%" />
+                  </td>
+
+                  <!-- title -->
+                  <td class="product-details w-30" style="min-width: 250px">
+                    <h3 class="title ml-1 mr-2" style="font-weight: bold">
+                      <a href="{% url 'postad:postad_detail' pk=post.id slug=post.slug %}"> {{post.title}} </a>
+                    </h3>
+                  </td>
+
+                  <!-- category -->
+                  <td class="product-details w-20" style="min-width: 150px">
+                    <span class="categories">{{post.category.title}}</span>
+                  </td>
+
+                  <!-- status of ad -->
+                  <td class="product-details w-10" style="min-width: 150px">
+                    {% if not post.sold %}
+                    <span class="status active">Active</span>
+                    {% else %}
+                    <span class="status" style="color: red">Sold</span>
+                    {% endif %}
+                  </td>
+
+                  <!-- visit -->
+                  <td class="action w-10" data-title="Action" style="min-width: 100px">
+                    <div class="">
+                      <ul class="list-inline justify-content-center">
+                        <li class="list-inline-item">
+                          <a
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="View"
+                            class="view"
+                            href="{% url 'postad:postad_detail' pk=post.id slug=post.slug %}"
+                          >
+                            <i class="fa fa-eye"></i>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <h5 style="color: red">Oop's, {{profile.first_name}} {{profile.last_name}} do not have any ad yet 😞</h5>
+          {% endif %}
+          <!-- END TABLE -->
         </div>
-        <!-- pagination -->
       </div>
     </div>
     <!-- Row End -->

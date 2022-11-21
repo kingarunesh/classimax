@@ -28,6 +28,7 @@ class PublicUserProfileView(LoginRequiredMixin, DetailView, FormMixin):
         context["follow"] = Follow.objects.filter(user=self.request.user, following=self.kwargs["pk"])
         context["total_following"] = Follow.objects.filter(user=self.kwargs["pk"]).count()
         context["total_followers"] = Follow.objects.filter(following=self.kwargs["pk"]).count()
+        context["total_ads"] = PostAD.objects.filter(user=self.kwargs["pk"]).count()
         return context
     
     def form_valid(self, form):
@@ -67,6 +68,9 @@ class AdPostPublicView(LoginRequiredMixin, ListView):
         context["adposts"] = PostAD.objects.filter(user=user_data).order_by("-id")
         context["total_adpost"] = PostAD.objects.filter(user=user_data).count()
         context["profile"] = user_data
+        context["total_following"] = Follow.objects.filter(user=self.kwargs["pk"]).count()
+        context["total_followers"] = Follow.objects.filter(following=self.kwargs["pk"]).count()
+        context["total_ads"] = PostAD.objects.filter(user=self.kwargs["pk"]).count()
         return context
 
 
@@ -79,6 +83,9 @@ class ContactAdUserView(LoginRequiredMixin, DetailView, FormMixin):
         context = super(ContactAdUserView, self).get_context_data(**kwargs)
         # context["profile"] = self.request.user
         context["profile"] = User.objects.get(pk=self.kwargs["pk"])
+        context["total_following"] = Follow.objects.filter(user=self.kwargs["pk"]).count()
+        context["total_followers"] = Follow.objects.filter(following=self.kwargs["pk"]).count()
+        context["total_ads"] = PostAD.objects.filter(user=self.kwargs["pk"]).count()
         return context
     
     def form_valid(self, form, **kwargs):
@@ -126,6 +133,9 @@ class FollowingsDetailView(LoginRequiredMixin, ListView):
         context = super(FollowingsDetailView, self).get_context_data(**kwargs)
         context["profile"] = Account.objects.get(id=self.kwargs["pk"])
         context["followings"] = Follow.objects.filter(user=self.kwargs["pk"]).order_by("-date")
+        context["total_following"] = Follow.objects.filter(user=self.kwargs["pk"]).count()
+        context["total_followers"] = Follow.objects.filter(following=self.kwargs["pk"]).count()
+        context["total_ads"] = PostAD.objects.filter(user=self.kwargs["pk"]).count()
         return context
 
 
@@ -138,4 +148,7 @@ class FollowersDetailView(LoginRequiredMixin, ListView):
         context = super(FollowersDetailView, self).get_context_data(**kwargs)
         context["profile"] = Account.objects.get(id=self.kwargs["pk"])
         context["followers"] = Follow.objects.filter(following=self.kwargs["pk"]).order_by("-date")
+        context["total_following"] = Follow.objects.filter(user=self.kwargs["pk"]).count()
+        context["total_followers"] = Follow.objects.filter(following=self.kwargs["pk"]).count()
+        context["total_ads"] = PostAD.objects.filter(user=self.kwargs["pk"]).count()
         return context

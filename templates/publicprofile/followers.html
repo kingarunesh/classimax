@@ -3,6 +3,17 @@
 
 {% block content %}
 
+<section class="page-title">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 offset-md-2 text-center">
+        <!-- Title text -->
+        <h3>Followers</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="dashboard section">
   <!-- Container Start -->
   <!-- <div class="container"> -->
@@ -13,52 +24,70 @@
       <div class="col-lg-9">
         <!-- Recently Favorited -->
         <div class="widget dashboard-container my-adslist">
-          <h2 class="mb-5">Followers Ads</h2>
+          <h2 class="mb-5">"{{profile.first_name}} {{profile.last_name}}" Followers</h2>
           {% if followers %}
-          <table class="table table-responsive product-dashboard-table">
-            <thead>
-              <tr>
-                <th>Image</th>
-                <th>Username</th>
-                <th>Date</th>
-                <th class="text-center">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for follower in followers %}
-              <tr>
-                <td class="product-thumb">
-                  {% if follower.user.image %}
-                  <img width="80px" height="auto" src="{{follower.user.image.url}}" alt="image description" />
-                  {% endif %}
-                </td>
-                <td class="product-details">
-                  <h3 class="title">{{follower.user.username}}</h3>
-                  <span><strong>Started on: </strong><time>{{follower.date|date:'d M o'}}</time> </span>
-                </td>
-                <td class="action" data-title="Action">
-                  <div class="">
-                    <ul class="list-inline justify-content-center">
-                      <li class="list-inline-item">
-                        <a
-                          data-toggle="tooltip"
-                          data-placement="top"
-                          title="View"
-                          class="view"
-                          href="{% url 'publicprofile:public_profile' pk=follower.user.id %}"
-                        >
-                          <i class="fa fa-eye"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+          <div class="table-responsive">
+            <table class="table product-dashboard-table">
+              <!-- <table class="table product-dashboard-table"> -->
+              <thead>
+                <tr>
+                  <th>IMAGE</th>
+                  <th class="text-center">NAME</th>
+                  <th class="text-center">DATE</th>
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for follower in followers %}
+                <tr>
+                  <!-- image -->
+                  <td class="product-thumb p-1 w-25" style="min-width: 150px">
+                    {% if follower.user.image %}
+                    <img src="{{follower.user.image.url}}" alt="image description" width="100px" height="100px" style="border-radius: 50%" />
+                    {% endif %}
+                  </td>
+
+                  <!-- name -->
+                  <td class="product-details text-center w-25" style="min-width: 200px">
+                    <h3 class="title ml-2" style="font-weight: bold">
+                      <a href="{% url 'publicprofile:public_profile' pk=follower.user.id %}">
+                        {{follower.user.first_name}} {{follower.user.last_name}}
+                      </a>
+                    </h3>
+                  </td>
+
+                  <!-- date -->
+                  <td class="w-25" style="min-width: 150px">
+                    <div class="text-center">{{follower.date|date:'d M o'}}</div>
+                  </td>
+
+                  <!-- visit profile -->
+                  <td class="action w-25" data-title="Action" style="min-width: 150px">
+                    <div class="text-center">
+                      <ul class="list-inline justify-content-center">
+                        <li class="list-inline-item">
+                          <a
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="View"
+                            class="view"
+                            href="{% url 'publicprofile:public_profile' pk=follower.user.id %}"
+                          >
+                            <i class="fa fa-eye"></i>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
           {% else %}
-          <h5 style="color: red">☹️ You don't have any bookmark post.</h5>
+          <h5 style="color: red">
+            Oop's, {{profile.first_name}} {{profile.last_name}} do not have any follower yet 😞, You can follow {{profile.first_name}} to make happy.
+          </h5>
           {% endif %}
         </div>
       </div>
