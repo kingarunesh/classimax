@@ -26,6 +26,8 @@ class PublicUserProfileView(LoginRequiredMixin, DetailView, FormMixin):
     def get_context_data(self, **kwargs):
         context = super(PublicUserProfileView, self).get_context_data(**kwargs)
         context["follow"] = Follow.objects.filter(user=self.request.user, following=self.kwargs["pk"])
+        context["total_following"] = Follow.objects.filter(user=self.kwargs["pk"]).count()
+        context["total_followers"] = Follow.objects.filter(following=self.kwargs["pk"]).count()
         return context
     
     def form_valid(self, form):

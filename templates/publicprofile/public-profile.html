@@ -14,55 +14,54 @@
       <div class="col-lg-9">
         <!-- Edit Profile Welcome Text -->
         <div class="widget user-dashboard-profile">
-          <!-- User Image -->
           <div class="row">
-            <div class="col-lg-5">
+            <!-- Image -->
+            <div class="col-lg-4">
               <div class="profile-thumb">
                 {% if profile.image %}
-                <img src="{{profile.image.url}}" alt="" class="rounded-circle" style="width: 100%; height: auto; text-align: center" />
+                <img src="{{profile.image.url}}" alt="" style="width: 100%; height: auto; text-align: center; border-radius: 1rem" class="mb-5" />
                 {% endif %}
+
+                <!-- follow -->
+                <div class="mb-3">
+                  <form action="" method="POST">
+                    {% csrf_token %}
+                    <!--  -->
+                    {% if not follow %}
+                    <button type="submit" class="btn btn-main-sm">Follow</button>
+                    {% else %}
+                    <a href="#"></a>
+                    <button type="submit" class="btn btn-main-sm bg-dark">Following</button>
+                    {% endif %}
+                  </form>
+                </div>
+                <!-- end follow -->
+
+                <h5 class="text-center">{{profile.first_name}} {{profile.last_name}}</h5>
+                <p>Joined {{profile.date_joined|date:"d M o"}}</p>
+                <a href="">Followers : {{total_followers}}</a>
+                <br />
+                <a href="">Following : {{total_following}}</a>
               </div>
             </div>
-            <div class="col-lg-4">
-              <h5 class="text-center">{{profile.first_name}} {{profile.last_name}}</h5>
-              <p>Joined {{profile.date_joined|date:"d M o"}}</p>
-            </div>
-            <!-- followers & following -->
-            <div class="col-lg-3">
-              <form action="" method="POST">
-                {% csrf_token %}
-                <!--  -->
-                {% if not follow %}
-                <button type="submit" class="btn btn-main-sm">Follow</button>
-                {% else %}
-                <a href="#"></a>
-                <button type="submit" class="btn btn-main-sm bg-dark">Following</button>
-                {% endif %}
-              </form>
-            </div>
-          </div>
-          <!-- end followers & following -->
-        </div>
-        <!-- Edit Personal Info -->
-
-        <!-- profile info -->
-        <div class="row">
-          <div class="col-lg-12 col-md-12">
-            <div class="widget personal-info">
-              <h4 class="widget-header user">Edit Personal Information</h4>
-              <p><strong style="color: black">USERNAME : </strong> {{profile.username}}</p>
-              <p><strong style="color: black">FIRST_NAME : </strong> {{profile.first_name}}</p>
-              <p><strong style="color: black">LAST NAME : </strong> {{profile.last_name}}</p>
-              <p><strong style="color: black">EMAIL : </strong> {{profile.email}}</p>
-              <p><strong style="color: black">PHONE : </strong> {{profile.phone}}</p>
-              <p><strong style="color: black">DATE OF BIRTH : </strong> {{profile.dob|date:'d M o'}}</p>
-              <p><strong style="color: black">GENDER : </strong> {{profile.gender}}</p>
-              <p><strong style="color: black">DATE JOINED : </strong> {{profile.date_joined|date:"d M o"}}</p>
-              <p><strong style="color: black">ABOUT ME : </strong> {{profile.about}}</p>
+            <!-- end image -->
+            <div class="col-lg-8">
+              <!--  -->
+              <div class="personal-info">
+                <h4 class="widget-header user">Edit Personal Information</h4>
+                <p><strong style="color: black">USERNAME : </strong> {{profile.username}}</p>
+                <p><strong style="color: black">FIRST_NAME : </strong> {{profile.first_name}}</p>
+                <p><strong style="color: black">LAST NAME : </strong> {{profile.last_name}}</p>
+                <p><strong style="color: black">EMAIL : </strong> {{profile.email}}</p>
+                <p><strong style="color: black">PHONE : </strong> {{profile.phone}}</p>
+                <p><strong style="color: black">DATE OF BIRTH : </strong> {{profile.dob|date:'d M o'}}</p>
+                <p><strong style="color: black">GENDER : </strong> {{profile.gender}}</p>
+                <p><strong style="color: black">DATE JOINED : </strong> {{profile.date_joined|date:"d M o"}}</p>
+                <p><strong style="color: black">ABOUT ME : </strong> {{profile.about}}</p>
+              </div>
             </div>
           </div>
         </div>
-        <!-- end profile info -->
       </div>
     </div>
     <!-- Row End -->
