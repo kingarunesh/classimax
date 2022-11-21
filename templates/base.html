@@ -35,6 +35,18 @@
     {% include 'includes/header.html' %}
     <!-- end header -->
 
+    <!-- user pending message -->
+    {% if user.is_authenticated %} {% if request.user.phone is None %}
+    <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+      <div class="container">
+        <strong>Profile Update!</strong> Please enter your contact number.
+        <a href="{% url 'dashboard:update_profile' pk=request.user.id %}" class="ml-1 btn btn-info p-1">Update</a>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+    {% endif %} {% endif %}
+    <!-- end user pending message -->
+
     <!-- content -->
     {% block content %} {% endblock %}
     <!-- end content -->
