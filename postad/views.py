@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import FormMixin
 from django.db.models import F, Q
+from friends.models import Follow
 
 
 
@@ -319,3 +320,23 @@ class RecentVisitAdPostView(LoginRequiredMixin, ListView):
         context = super(RecentVisitAdPostView, self).get_context_data(**kwargs)
         context["total_adpost"] = RecentView.objects.filter(user=self.request.user).count()
         return context
+
+
+class FollowingUsersAdsListView(LoginRequiredMixin, ListView):
+    model = PostAD
+    template_name = "postad/following-users-ads.html"
+    context_object_name = "postads"
+
+    def get_queryset(self):
+        following_users_id = Follow.objects.filter(user=self.request.user).values("following")
+
+        following_users_posts = []
+        for post in following_users_id:
+            following_users_posts.append(PostAD.objects.filter(user__id=post['following']))
+        
+        ad_posts = []
+        for post in following_users_posts:
+            if len(post) > 0:
+                ad_posts.extend(post)
+        
+        return ad_posts

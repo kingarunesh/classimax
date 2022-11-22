@@ -18,4 +18,5 @@ urlpatterns = [
     path("report/<int:pk>/", ReportAdCreateView.as_view(), name="report"),
     path("recent-visit-ads/", RecentVisitAdPostView.as_view(), name="recent_visit_ads"),
     path("trending-ads/", TrendingAdsViewList.as_view(), name="trending_ads"),
+    path("following-users-ads/", FollowingUsersAdsListView.as_view(), name="following_users_ads"),
 ]
