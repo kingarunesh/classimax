@@ -39,6 +39,22 @@ class PostAdView(ListView):
         return context
 
 
+
+class TrendingAdsViewList(ListView):
+    model = PostAD
+    template_name = "postad/trending-ads.html"
+    context_object_name = "trending_ads"
+    paginate_by = 9
+
+    def get_queryset(self):
+        return PostAD.objects.order_by("-hits")
+    
+    def get_context_data(self, **kwargs):
+        context = super(TrendingAdsViewList, self).get_context_data(**kwargs)
+        context["total_adpost"] = PostAD.objects.count()
+        return context
+
+
 class PostAdDetailView(LoginRequiredMixin, DetailView, FormMixin):
     model = PostAD
     template_name = "postad/postad-detail.html"
