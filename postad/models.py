@@ -15,7 +15,7 @@ class Category(models.Model):
         super(Category, self).save(*args, **kwarsg)
     
     def adpost_count(self):
-        return self.postad.all().count()
+        return self.postad.filter(sold=False).all().count()
     
     def __str__(self):
         return self.title

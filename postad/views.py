@@ -17,11 +17,11 @@ class IndexView(ListView):
     context_object_name = "postads"
 
     def get_queryset(self):
-        return PostAD.objects.order_by("-id")[:4]
+        return PostAD.objects.filter(sold=False).order_by("-id")[:4]
     
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
-        context["trending_ads"] = PostAD.objects.order_by("-hits")[:4]
+        context["trending_ads"] = PostAD.objects.filter(sold=False).order_by("-hits")[:4]
         
         if self.request.user.is_active:
             context["recent_visit"] = RecentView.objects.filter(user=self.request.user).order_by("-visit_date")[:4]
@@ -30,7 +30,7 @@ class IndexView(ListView):
             following_users_id = Follow.objects.filter(user=self.request.user).values("following")
             following_users_posts = []
             for post in following_users_id:
-                following_users_posts.append(PostAD.objects.filter(user__id=post['following']))
+                following_users_posts.append(PostAD.objects.filter(user__id=post['following'], sold=False))
             ad_posts = []
             for post in following_users_posts:
                 if len(post) > 0:
@@ -48,11 +48,11 @@ class PostAdView(ListView):
     paginate_by = 9
 
     def get_queryset(self):
-        return PostAD.objects.order_by("-id")
+        return PostAD.objects.filter(sold=False).order_by("-id")
     
     def get_context_data(self, **kwargs):
         context = super(PostAdView, self).get_context_data(**kwargs)
-        context["total_adpost"] = PostAD.objects.count()
+        context["total_adpost"] = PostAD.objects.filter(sold=False).count()
         return context
 
 
@@ -64,11 +64,11 @@ class TrendingAdsViewList(ListView):
     paginate_by = 9
 
     def get_queryset(self):
-        return PostAD.objects.order_by("-hits")
+        return PostAD.objects.filter(sold=False).order_by("-hits")
     
     def get_context_data(self, **kwargs):
         context = super(TrendingAdsViewList, self).get_context_data(**kwargs)
-        context["total_adpost"] = PostAD.objects.count()
+        context["total_adpost"] = PostAD.objects.filter(sold=False).count()
         return context
 
 
@@ -184,24 +184,24 @@ class SearchResultView(ListView):
         location = self.request.GET.get("location")
 
         if query != '' and category != '' and location != '':
-            return PostAD.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).filter(category__title__icontains=category).filter(city__icontains=location).order_by("-id").distinct()
+            return PostAD.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).filter(category__title__icontains=category).filter(city__icontains=location).filter(sold=False).order_by("-id").distinct()
 
         elif query != '' and category != '' and location == '':
-            return PostAD.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).filter(category__title__icontains=category).order_by("-id").distinct()
+            return PostAD.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).filter(category__title__icontains=category).filter(sold=False).order_by("-id").distinct()
             
         elif query != '' and category == '' and location != '':
-            return PostAD.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).filter(city__icontains=location).order_by("-id").distinct()
+            return PostAD.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).filter(city__icontains=location).filter(sold=False).order_by("-id").distinct()
         
         elif query == '' and category == '' and location != '':
-            return PostAD.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).filter(city__icontains=location).order_by("-id").distinct()
+            return PostAD.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).filter(city__icontains=location).filter(sold=False).order_by("-id").distinct()
         
         elif query == '' and category != '' and location == '':
-            return PostAD.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).filter(category__title__icontains=category).order_by("-id").distinct()
+            return PostAD.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).filter(category__title__icontains=category).filter(sold=False).order_by("-id").distinct()
 
         elif query != '':
-            return PostAD.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).order_by("-id").distinct()
+            return PostAD.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).filter(sold=False).order_by("-id").distinct()
         
-        return PostAD.objects.all().order_by("-id")
+        return PostAD.objects.filter(sold=False).order_by("-id")
 
 
 class CategoryPostAdView(ListView):
@@ -211,8 +211,8 @@ class CategoryPostAdView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(CategoryPostAdView, self).get_context_data(**kwargs)
-        context["posts"] = PostAD.objects.filter(category__id=self.kwargs["pk"])
-        context["total_posts"] = PostAD.objects.filter(category__id=self.kwargs["pk"]).count()
+        context["posts"] = PostAD.objects.filter(category__id=self.kwargs["pk"], sold=False)
+        context["total_posts"] = PostAD.objects.filter(category__id=self.kwargs["pk"], sold=False).count()
         # context["category_title"] = PostAD.objects.filter(category__id=self.kwargs["pk"])[0]
         context["category_name"] = Category.objects.get(pk=self.kwargs["pk"])
         return context
@@ -237,26 +237,26 @@ class FilterResultView(ListView):
             max_price = price.split(",")[1]
 
             if short == "Popularity":
-                return PostAD.objects.filter(condition=condition).filter(price__gte=min_price, price__lte=max_price).order_by("-hits")
+                return PostAD.objects.filter(condition=condition).filter(price__gte=min_price, price__lte=max_price).filter(sold=False).order_by("-hits")
             elif short == "LowestPrice":
-                return PostAD.objects.filter(condition=condition).filter(price__gte=min_price, price__lte=max_price).order_by("price")
+                return PostAD.objects.filter(condition=condition).filter(price__gte=min_price, price__lte=max_price).filter(sold=False).order_by("price")
             elif short == "HighestPrice":
-                return PostAD.objects.filter(condition=condition).filter(price__gte=min_price, price__lte=max_price).order_by("-price")
+                return PostAD.objects.filter(condition=condition).filter(price__gte=min_price, price__lte=max_price).filter(sold=False).order_by("-price")
         #   if condition and price is there
         elif condition and price:
             print(price.split(","))
             min_price = price.split(",")[0]
             max_price = price.split(",")[1]
-            return PostAD.objects.filter(condition=condition).filter(price__gte=min_price, price__lte=max_price).order_by("-id")
+            return PostAD.objects.filter(condition=condition).filter(price__gte=min_price, price__lte=max_price).filter(sold=False).order_by("-id")
 
         #   if condition and short is there
         elif condition and short:
             if short == "Popularity":
-                return PostAD.objects.filter(condition=condition).order_by("-hits")
+                return PostAD.objects.filter(condition=condition).filter(sold=False).order_by("-hits")
             elif short == "LowestPrice":
-                return PostAD.objects.filter(condition=condition).order_by("price")
+                return PostAD.objects.filter(condition=condition).filter(sold=False).order_by("price")
             elif short == "HighestPrice":
-                return PostAD.objects.filter(condition=condition).order_by("-price")
+                return PostAD.objects.filter(condition=condition).filter(sold=False).order_by("-price")
         
         #   if price and short is there
         elif price and short:
@@ -264,32 +264,32 @@ class FilterResultView(ListView):
             max_price = price.split(",")[1]
 
             if short == "Popularity":
-                return PostAD.objects.filter(price__gte=min_price, price__lte=max_price).order_by("-hits")
+                return PostAD.objects.filter(price__gte=min_price, price__lte=max_price).filter(sold=False).order_by("-hits")
             elif short == "LowestPrice":
-                return PostAD.objects.filter(price__gte=min_price, price__lte=max_price).order_by("price")
+                return PostAD.objects.filter(price__gte=min_price, price__lte=max_price).filter(sold=False).order_by("price")
             elif short == "HighestPrice":
-                return PostAD.objects.filter(price__gte=min_price, price__lte=max_price).order_by("-price")
+                return PostAD.objects.filter(price__gte=min_price, price__lte=max_price).filter(sold=False).order_by("-price")
         
 
 
         if short == "Popularity":
-            return PostAD.objects.order_by("-hits")
+            return PostAD.objects.filter(sold=False).order_by("-hits")
         elif short == "LowestPrice":
-            return PostAD.objects.order_by("price")
+            return PostAD.objects.filter(sold=False).order_by("price")
         elif short == "HighestPrice":
-            return PostAD.objects.order_by("-price")
+            return PostAD.objects.filter(sold=False).order_by("-price")
         
 
         if condition:
-            return PostAD.objects.filter(condition=condition).order_by("-id")
+            return PostAD.objects.filter(condition=condition).filter(sold=False).order_by("-id")
         
         if price:
             print(price.split(","))
             min_price = price.split(",")[0]
             max_price = price.split(",")[1]
-            return PostAD.objects.filter(price__gte=min_price, price__lte=max_price)
+            return PostAD.objects.filter(price__gte=min_price, price__lte=max_price).filter(sold=False)
 
-        return PostAD.objects.all().order_by("-id")
+        return PostAD.objects.filter(sold=False).all().order_by("-id")
 
 
 class CityAdPostListView(ListView):
@@ -299,8 +299,8 @@ class CityAdPostListView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super(CityAdPostListView, self).get_context_data(**kwargs)
-        context["posts"] = PostAD.objects.filter(city__icontains=self.kwargs["city"]).order_by("-id").distinct()
-        context["total_posts"] = PostAD.objects.filter(city__icontains=self.kwargs["city"]).order_by("-id").distinct().count()
+        context["posts"] = PostAD.objects.filter(city__icontains=self.kwargs["city"]).filter(sold=False).order_by("-id").distinct()
+        context["total_posts"] = PostAD.objects.filter(city__icontains=self.kwargs["city"]).filter(sold=False).order_by("-id").distinct().count()
         context["city_name"] = self.kwargs["city"]
         return context
 
@@ -349,7 +349,7 @@ class FollowingUsersAdsListView(LoginRequiredMixin, ListView):
 
         following_users_posts = []
         for post in following_users_id:
-            following_users_posts.append(PostAD.objects.filter(user__id=post['following']))
+            following_users_posts.append(PostAD.objects.filter(user__id=post['following']).filter(sold=False))
         
         ad_posts = []
         for post in following_users_posts:

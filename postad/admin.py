@@ -4,7 +4,7 @@ from postad.models import PostAD, Category, Bookmark, ReportAdPost, RecentView
 
 
 class PostAdAdmin(admin.ModelAdmin):
-    list_display = ["id", "title", "user", "category"]
+    list_display = ["id", "title", "user", "category", 'sold']
     list_display_links = ["id", "title"]
     list_filter = ["category", "user"]
 
