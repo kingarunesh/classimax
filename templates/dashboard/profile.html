@@ -4,6 +4,17 @@
 
 {% block content %}
 
+<section class="page-title">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 offset-md-2 text-center">
+        <!-- Title text -->
+        <h3>Dashboard</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="dashboard section">
   <!-- Container Start -->
   <!-- <div class="container"> -->
@@ -12,17 +23,27 @@
     <div class="row">
       <div class="col-lg-3">{% include "includes/user-profile-sidebar.html" %}</div>
       <div class="col-lg-9">
-        <!-- Edit Profile Welcome Text -->
-        <div class="widget welcome-message">
-          <h2>Public Profile</h2>
-        </div>
-        <!-- Edit Personal Info -->
-
         <!-- profile info -->
-        <div class="row">
-          <div class="col-lg-12 col-md-12">
-            <div class="widget personal-info">
-              <h4 class="widget-header user">Edit Personal Information</h4>
+        <div class="row widget">
+          <!-- imgage -->
+          <div class="col-lg-4">
+            <div class="user-dashboard-profile p-4">
+              <div class="profile-thumb mb-4">
+                {% if profile.image %}
+                <img src="{{profile.image.url}}" alt="" class="p-1" style="border-radius: 10%; width: 100%" />
+                {% endif %}
+              </div>
+              <h5 class="text-center">{{profile.first_name}} {{profile.last_name}}</h5>
+              <p>Joined {{profile.date_joined|date:"d M o"}}</p>
+              <a href="{% url 'dashboard:update_profile' pk=profile.id %}" class="btn btn-main-sm">Edit Profile</a>
+            </div>
+          </div>
+          <!-- end image -->
+
+          <!-- info -->
+          <div class="col-lg-8 col-md-12">
+            <div class="personal-info">
+              <h4 class="widget-header user mt-2" style="font-size: 1.5rem; font-weight: bold">Personal Information</h4>
               <p><strong style="color: black">USERNAME : </strong> {{profile.username}}</p>
               <p><strong style="color: black">FIRST_NAME : </strong> {{profile.first_name}}</p>
               <p><strong style="color: black">LAST NAME : </strong> {{profile.last_name}}</p>
@@ -34,6 +55,7 @@
               <p><strong style="color: black">ABOUT ME : </strong> {{profile.about}}</p>
             </div>
           </div>
+          <!-- end info -->
         </div>
         <!-- end profile info -->
       </div>

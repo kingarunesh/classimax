@@ -22,6 +22,11 @@ class UserProfileView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(UserProfileView, self).get_context_data(*kwargs)
         context["profile"] = self.request.user
+        context["total_followers"] = Follow.objects.filter(following=self.request.user).count()
+        context["total_followings"] = Follow.objects.filter(user=self.request.user).count()
+        context["total_ads"] = PostAD.objects.filter(user=self.request.user).count()
+        context["total_bookmarks"] = Bookmark.objects.filter(user=self.request.user).count()
+        context["total_contacts"] = ContactUser.objects.filter(receiver_user=self.request.user).count()
         return context
     
     def get_queryset(self):
@@ -58,6 +63,7 @@ class MyAdPostView(LoginRequiredMixin, ListView):
     model = PostAD
     template_name = "dashboard/my-ad-post.html"
     context_object_name = "adposts"
+    paginate_by = 9
 
     def get_queryset(self):
         return PostAD.objects.filter(user=self.request.user).order_by("-id")
@@ -65,6 +71,11 @@ class MyAdPostView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(MyAdPostView, self).get_context_data(**kwargs)
         context["profile"] = self.request.user
+        context["total_followers"] = Follow.objects.filter(following=self.request.user).count()
+        context["total_followings"] = Follow.objects.filter(user=self.request.user).count()
+        context["total_ads"] = PostAD.objects.filter(user=self.request.user).count()
+        context["total_bookmarks"] = Bookmark.objects.filter(user=self.request.user).count()
+        context["total_contacts"] = ContactUser.objects.filter(receiver_user=self.request.user).count()
         return context
 
 
@@ -72,6 +83,7 @@ class BookmarkAdPostView(LoginRequiredMixin, ListView):
     model = Bookmark
     template_name = "dashboard/bookmark-ad-posts.html"
     context_object_name = "bookmarks"
+    paginate_by = 9
 
     def get_queryset(self):
         return Bookmark.objects.filter(user=self.request.user).order_by("-id")
@@ -79,6 +91,11 @@ class BookmarkAdPostView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(BookmarkAdPostView, self).get_context_data(**kwargs)
         context["profile"] = self.request.user
+        context["total_followers"] = Follow.objects.filter(following=self.request.user).count()
+        context["total_followings"] = Follow.objects.filter(user=self.request.user).count()
+        context["total_ads"] = PostAD.objects.filter(user=self.request.user).count()
+        context["total_bookmarks"] = Bookmark.objects.filter(user=self.request.user).count()
+        context["total_contacts"] = ContactUser.objects.filter(receiver_user=self.request.user).count()
         return context
 
 
@@ -93,6 +110,11 @@ class ContactUserView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(ContactUserView, self).get_context_data(**kwargs)
         context["profile"] = self.request.user
+        context["total_followers"] = Follow.objects.filter(following=self.request.user).count()
+        context["total_followings"] = Follow.objects.filter(user=self.request.user).count()
+        context["total_ads"] = PostAD.objects.filter(user=self.request.user).count()
+        context["total_bookmarks"] = Bookmark.objects.filter(user=self.request.user).count()
+        context["total_contacts"] = ContactUser.objects.filter(receiver_user=self.request.user).count()
         return context
 
 
@@ -118,6 +140,11 @@ class FollowingsListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(FollowingsListView, self).get_context_data(**kwargs)
         context["profile"] = self.request.user
+        context["total_followers"] = Follow.objects.filter(following=self.request.user).count()
+        context["total_followings"] = Follow.objects.filter(user=self.request.user).count()
+        context["total_ads"] = PostAD.objects.filter(user=self.request.user).count()
+        context["total_bookmarks"] = Bookmark.objects.filter(user=self.request.user).count()
+        context["total_contacts"] = ContactUser.objects.filter(receiver_user=self.request.user).count()
         return context
 
 
@@ -132,4 +159,9 @@ class FollowersListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(FollowersListView, self).get_context_data(**kwargs)
         context["profile"] = self.request.user
+        context["total_followers"] = Follow.objects.filter(following=self.request.user).count()
+        context["total_followings"] = Follow.objects.filter(user=self.request.user).count()
+        context["total_ads"] = PostAD.objects.filter(user=self.request.user).count()
+        context["total_bookmarks"] = Bookmark.objects.filter(user=self.request.user).count()
+        context["total_contacts"] = ContactUser.objects.filter(receiver_user=self.request.user).count()
         return context
