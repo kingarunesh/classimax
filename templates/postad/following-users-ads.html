@@ -97,7 +97,7 @@
                     <ul class="list-inline mt-3 mb-3">
                       <!-- author -->
                       <li class="list-inline-item mb-1">
-                        <a href="{% url 'postad:city_adposts_list' city=post.city %}" style="color: gray">
+                        <a href="{% url 'publicprofile:public_profile' pk=post.user.id %}" style="color: gray">
                           <i class="fa fa-user" aria-hidden="true"></i> Author -
                           <span style="color: gray; font-weight: bold">{{post.user.first_name}} {{post.user.last_name}}</span>
                         </a>
@@ -124,18 +124,18 @@
 
                       <!-- views -->
                       <li class="list-inline-item mb-1">
-                        <a href="#" style="color: gray">
+                        <span style="color: gray">
                           <i class="fa fa-eye" aria-hidden="true"></i> Views - <span style="color: gray; font-weight: bold">{{post.hits}}</span>
-                        </a>
+                        </span>
                       </li>
                       <br />
 
                       <!-- date -->
                       <li class="list-inline-item mb-1">
-                        <a href="#" style="color: gray">
+                        <span style="color: gray">
                           <i class="fa fa-calendar"></i> Publish Date -
                           <span style="color: gray; font-weight: bold">{{post.publish_date|date:"d-M-o"}}</span>
-                        </a>
+                        </span>
                       </li>
                     </ul>
                     <!--  -->

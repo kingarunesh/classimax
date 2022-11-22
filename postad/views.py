@@ -326,6 +326,7 @@ class FollowingUsersAdsListView(LoginRequiredMixin, ListView):
     model = PostAD
     template_name = "postad/following-users-ads.html"
     context_object_name = "postads"
+    paginate_by = 9
 
     def get_queryset(self):
         following_users_id = Follow.objects.filter(user=self.request.user).values("following")
