@@ -16,6 +16,7 @@ class IndexView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
+        context["trending_ads"] = PostAD.objects.order_by("-hits")[:4]
         
         if self.request.user.is_active:
             context["recent_visit"] = RecentView.objects.filter(user=self.request.user).order_by("-visit_date")[:4]
