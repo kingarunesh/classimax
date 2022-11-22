@@ -338,5 +338,7 @@ class FollowingUsersAdsListView(LoginRequiredMixin, ListView):
         for post in following_users_posts:
             if len(post) > 0:
                 ad_posts.extend(post)
-        
+
+        ad_posts.sort(key = lambda x : -x.id)
+
         return ad_posts
