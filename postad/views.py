@@ -14,6 +14,10 @@ from friends.models import Follow
 class IndexView(ListView):
     model = PostAD
     template_name = "postad/index.html"
+    context_object_name = "postads"
+
+    def get_queryset(self):
+        return PostAD.objects.order_by("-id")[:4]
     
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
