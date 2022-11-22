@@ -25,8 +25,8 @@
               <a href="{% url 'postad:adposts' %}">Explore Ads</a>
             </li>
             <li><a href="{% url 'postad:trending_ads' %}">Trending Ads</a></li>
-            <li><a href="terms-condition.html">Terms & Conditions</a></li>
-            <li><a href="dashboard-pending-ads.html">About Us</a></li>
+            <li><a href="{% url 'postad:terms_and_conditions' %}">Terms & Conditions</a></li>
+            <li><a href="{% url 'postad:about_us' %}">About Us</a></li>
           </ul>
         </div>
       </div>

@@ -19,4 +19,6 @@ urlpatterns = [
     path("recent-visit-ads/", RecentVisitAdPostView.as_view(), name="recent_visit_ads"),
     path("trending-ads/", TrendingAdsViewList.as_view(), name="trending_ads"),
     path("following-users-ads/", FollowingUsersAdsListView.as_view(), name="following_users_ads"),
+    path("about-us/", AboutUsView.as_view(), name="about_us"),
+    path("terms-and-consitions/", TermsAndConditionsView.as_view(), name="terms_and_conditions"),
 ]

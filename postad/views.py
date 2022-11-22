@@ -359,3 +359,11 @@ class FollowingUsersAdsListView(LoginRequiredMixin, ListView):
         ad_posts.sort(key = lambda x : -x.id)
 
         return ad_posts
+
+
+class AboutUsView(TemplateView):
+    template_name = "pages/about-us.html"
+
+
+class TermsAndConditionsView(TemplateView):
+    template_name = "pages/term-conditions.html"
