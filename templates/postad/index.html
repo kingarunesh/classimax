@@ -317,6 +317,66 @@
   <div style="width: 90%; margin: auto">
     <div class="widget p-3">
       <div style="display: flex; justify-content: space-between; align-items: baseline" class="widget-header mb-3 p-1">
+        <h4 style="font-size: 1.2rem; padding: 0; font-weight: bold">Your Following Users Related Ads</h4>
+        <a href="{% url 'postad:following_users_ads' %}" class="btn btn-contact d-inline-block btn-primary p-2">View All</a>
+      </div>
+      <div class="product-grid-list">
+        <div class="row">
+          {% for post in following_users_ads %}
+          <div class="col-lg-3 col-md-6">
+            <div class="product-item bg-light mb-0">
+              <div class="card">
+                <div class="thumb-content">
+                  <!-- <div class="price">$200</div> -->
+                  <a href="{% url 'postad:postad_detail' pk=post.id slug=post.slug %}">
+                    <img class="card-img-top img-fluid" src="{{post.image1.url}}" style="width: 100%; height: 250px" alt="Card image cap" />
+                  </a>
+                </div>
+                <div class="card-body">
+                  <h4 class="card-title"><a href="{% url 'postad:postad_detail' pk=post.id slug=post.slug %}">{{post.title}}</a></h4>
+                  <ul class="list-inline product-meta">
+                    <li class="list-inline-item">
+                      <a href="{% url 'postad:category' pk=post.category.id slug=post.category.slug %}">
+                        <i class="fa fa-folder-open-o"></i>Category - <span style="color: gray; font-weight: bold">{{post.category.title}}</span>
+                      </a>
+                    </li>
+
+                    <br />
+                    <li class="list-inline-item">
+                      <a href="#">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>Location -
+                        <span style="color: gray; font-weight: bold">{{post.city}}, {{post.state}}</span>
+                      </a>
+                    </li>
+                    <br />
+                    <li class="list-inline-item">
+                      <a href="#">
+                        <i class="fa fa-calendar"></i> Visit Date -
+                        <span style="color: gray; font-weight: bold">{{post.publish_date|date:'d M o'}}</span>
+                      </a>
+                    </li>
+                  </ul>
+                  <div class="product-ratings" style="color: rgb(6, 55, 120); font-weight: bold">Price : ₹ {{post.price|intcomma}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-----------------------------------------------------------------------------
+                            recent visit ad posts
+----------------------------------------------------------------------------->
+{% if user.is_authenticated %}
+<section class="page-search bg-gray p-1">
+  <div style="width: 90%; margin: auto">
+    <div class="widget p-3">
+      <div style="display: flex; justify-content: space-between; align-items: baseline" class="widget-header mb-3 p-1">
         <h4 style="font-size: 1.2rem; padding: 0; font-weight: bold">Recently Viewed Ads</h4>
         <a href="{% url 'postad:recent_visit_ads' %}" class="btn btn-contact d-inline-block btn-primary p-2">View All</a>
       </div>

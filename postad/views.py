@@ -22,6 +22,18 @@ class IndexView(ListView):
         if self.request.user.is_active:
             context["recent_visit"] = RecentView.objects.filter(user=self.request.user).order_by("-visit_date")[:4]
 
+            #   get ads related only you following thoses users
+            following_users_id = Follow.objects.filter(user=self.request.user).values("following")
+            following_users_posts = []
+            for post in following_users_id:
+                following_users_posts.append(PostAD.objects.filter(user__id=post['following']))
+            ad_posts = []
+            for post in following_users_posts:
+                if len(post) > 0:
+                    ad_posts.extend(post)
+            ad_posts.sort(key = lambda x : -x.id)
+            context["following_users_ads"] = ad_posts[:4]
+
         return context
 
 
