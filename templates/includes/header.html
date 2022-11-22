@@ -1,5 +1,11 @@
 {% load static %}
 
+<!--  -->
+
+{% load custom_tags %}
+
+<!--  -->
+
 <header>
   <!-- <div class="container"> -->
   <div style="width: 90%; margin: auto">
@@ -31,7 +37,7 @@
                     class="nav-item"
                 {% endif %}
               >
-                <a class="nav-link" href="{% url 'postad:index' %}">Home</a>
+                <a class="nav-link" href="{% url 'postad:index' %}"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
               </li>
 
               <!-- ads -->
@@ -42,7 +48,7 @@
                     class="nav-item"
                 {% endif %}
               >
-                <a class="nav-link" href="{% url 'postad:adposts' %}">Explore Ads</a>
+                <a class="nav-link" href="{% url 'postad:adposts' %}"><i class="bi bi-file-earmark-post"></i> Explore Ads</a>
               </li>
 
               <!-- trending ads -->
@@ -53,23 +59,40 @@
                     class="nav-item"
                 {% endif %}
               >
-                <a class="nav-link" href="{% url 'postad:trending_ads' %}">Trending Ads</a>
+                <a class="nav-link" href="{% url 'postad:trending_ads' %}"><i class="bi bi-fire"></i> Trending Ads</a>
               </li>
 
-              <!-- users -->
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'publicprofile:user_list' %}">Users</a>
-              </li>
+              <!-- Categories -->
+                <li class="nav-item dropdown dropdown-slide @@dashboard">
+                    <a
+                      class="nav-link dropdown-toggle"
+                      data-toggle="dropdown"
+                      href="#!"
+                      ><i class="bi bi-tags"></i> Categories<span><i class="fa fa-angle-down"></i></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        {% categories as categories %}
+                        <!--  -->
+                        {% for category in categories %}
+                        <li>
+                            <a
+                                class="dropdown-item @@dashboardPage"
+                                href="{% url 'postad:category' pk=category.id slug=category.slug %}"
+                            >
+                                {{category}}
+                            </a>
+                        </li>
+                        {% endfor %}
+        
+                    </ul>
+                </li>
+
             </ul>
             <!-- end main menu -->
             <ul class="navbar-nav ml-auto mt-10">
               {% if user.is_authenticated %}
 
-              <!-- test -->
-              <!-- <li class="nav-item mr-2 bg-dark">
-                <a class="nav-link" href="" style="font-size: 1rem"><i class="fa fa-bell-o"></i></a>
-              </li> -->
-              <!-- test -->
+              
 
               <li class="nav-item">
                 <a class="nav-link login-button" href="{% url 'dashboard:profile' %}">Dashboard</a>
