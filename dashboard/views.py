@@ -49,6 +49,11 @@ class UpdateUserProfile(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(UpdateUserProfile, self).get_context_data(*kwargs)
         context["profile"] = self.request.user
+        context["total_followers"] = Follow.objects.filter(following=self.request.user).count()
+        context["total_followings"] = Follow.objects.filter(user=self.request.user).count()
+        context["total_ads"] = PostAD.objects.filter(user=self.request.user).count()
+        context["total_bookmarks"] = Bookmark.objects.filter(user=self.request.user).count()
+        context["total_contacts"] = ContactUser.objects.filter(receiver_user=self.request.user).count()
         return context
     
     def get(self, request, *args, **kwargs):
@@ -103,6 +108,7 @@ class ContactUserView(LoginRequiredMixin, ListView):
     model = ContactUser
     template_name = "dashboard/contacts.html"
     context_object_name = "contacts"
+    paginate_by = 9
 
     def get_queryset(self):
         return ContactUser.objects.filter(receiver_user=self.request.user)
