@@ -6,6 +6,10 @@
 
 <!--  -->
 
+{% load humanize %}
+
+<!--  -->
+
 {% load custom_tags %}
 
 <!--  -->
@@ -16,7 +20,6 @@
                                 Hero Area 
  ------------------------------------------------------------------>
 <section class="hero-area bg-1 text-center overly">
-  <!-- Container Start -->
   <div class="container">
     <div class="row">
       <div class="col-md-12">
@@ -87,7 +90,6 @@
       </div>
     </div>
   </div>
-  <!-- Container End -->
 </section>
 
 <!------------------------------------------------------------------
@@ -248,6 +250,66 @@
     </div>
   </div>
 </section>
+
+<!-----------------------------------------------------------------------------
+                            recent visit ad posts
+----------------------------------------------------------------------------->
+{% if user.is_authenticated %}
+<section class="page-search bg-gray p-1">
+  <div style="width: 90%; margin: auto">
+    <div class="widget p-3">
+      <div style="display: flex; justify-content: space-between; align-items: baseline" class="widget-header mb-3 p-1">
+        <h4 style="font-size: 1.2rem; padding: 0; font-weight: bold">Recently Viewed Ads</h4>
+        <a href="{% url 'postad:recent_visit_ads' %}" class="btn btn-contact d-inline-block btn-primary p-2">View All</a>
+      </div>
+      <div class="product-grid-list">
+        <div class="row">
+          {% for post in recent_visit %}
+          <div class="col-lg-3 col-md-6">
+            <div class="product-item bg-light">
+              <div class="card">
+                <div class="thumb-content">
+                  <!-- <div class="price">$200</div> -->
+                  <a href="{% url 'postad:postad_detail' pk=post.post.id slug=post.post.slug %}">
+                    <img class="card-img-top img-fluid" src="{{post.post.image1.url}}" style="width: 100%; height: 250px" alt="Card image cap" />
+                  </a>
+                </div>
+                <div class="card-body">
+                  <h4 class="card-title"><a href="{% url 'postad:postad_detail' pk=post.post.id slug=post.post.slug %}">{{post.post.title}}</a></h4>
+                  <ul class="list-inline product-meta">
+                    <li class="list-inline-item">
+                      <a href="{% url 'postad:category' pk=post.post.category.id slug=post.post.category.slug %}">
+                        <i class="fa fa-folder-open-o"></i>Category - <span style="color: gray; font-weight: bold">{{post.post.category.title}}</span>
+                      </a>
+                    </li>
+
+                    <br />
+                    <li class="list-inline-item">
+                      <a href="#">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>Location -
+                        <span style="color: gray; font-weight: bold">{{post.post.city}}, {{post.post.state}}</span>
+                      </a>
+                    </li>
+                    <br />
+                    <li class="list-inline-item">
+                      <a href="#">
+                        <i class="fa fa-calendar"></i> Visit Date -
+                        <span style="color: gray; font-weight: bold">{{post.visit_date|date:'d M o'}}</span>
+                      </a>
+                    </li>
+                  </ul>
+                  <div class="product-ratings" style="color: rgb(6, 55, 120); font-weight: bold">Price : ₹ {{post.post.price|intcomma}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
 
 <!------------------------------------------------------------------
                     All Category Section 
@@ -473,8 +535,8 @@
         <div class="content-holder">
           <h2>Start today to get more exposure and grow your business</h2>
           <ul class="list-inline mt-30">
-            <li class="list-inline-item"><a class="btn btn-main" href="ad-listing.html">Add Listing</a></li>
-            <li class="list-inline-item"><a class="btn btn-secondary" href="category.html">Browser Listing</a></li>
+            <li class="list-inline-item"><a class="btn btn-main" href="{% url 'postad:create_postad' %}">Add Listing</a></li>
+            <li class="list-inline-item"><a class="btn btn-secondary" href="{% url 'postad:adposts' %}">Browser Listing</a></li>
           </ul>
         </div>
       </div>

@@ -10,8 +10,17 @@ from django.db.models import F, Q
 
 
 
-class IndexView(TemplateView):
+class IndexView(ListView):
+    model = PostAD
     template_name = "postad/index.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        
+        if self.request.user.is_active:
+            context["recent_visit"] = RecentView.objects.filter(user=self.request.user).order_by("-visit_date")[:4]
+
+        return context
 
 
 class PostAdView(ListView):
